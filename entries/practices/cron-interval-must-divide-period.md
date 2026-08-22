@@ -39,6 +39,8 @@ specific wall-clock boundary rather than on every run.
   from when it actually fired, so the interval stays exact and the schedule
   self-corrects after a missed or delayed run. This is the only form that
   survives the scheduler being offline at a due time.
-- Prefer a scheduler with native interval support (systemd's `OnUnitActiveSec`,
-  most job queues' `every`) when one is available; the constraint is cron's
-  calendar-filter model, not scheduling in general.
+- Prefer a scheduler with native interval support when one is available; the
+  constraint is cron's calendar-filter model, not scheduling in general. On Linux
+  that is systemd's `OnUnitActiveSec`; on macOS it is a launchd agent's
+  `StartInterval` (seconds between runs, re-anchored from the last fire); most job
+  queues expose an `every`. All three express the interval cron cannot.
