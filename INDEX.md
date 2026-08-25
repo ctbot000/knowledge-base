@@ -28,3 +28,4 @@ _No entries yet._
 
 - [gh repo create does not add a git remote unless you pass --source](entries/tools/gh-repo-create-no-remote.md) — The push then fails with a misleading "access rights" error; check `git remote -v` first. `git`, `github`, `cli`
 - [A search allowlist that rejects uncrawlable domains fails the whole query](entries/tools/allowed-domains-all-or-nothing.md) — One blocked domain returns 400 and zero results; an errored search is not an empty search. `search`, `web`, `agents`
+- [Claude Code Remote Control can only be switched on from user-level settings](entries/tools/claude-code-remote-control-at-startup.md) — `remoteControlAtStartup` is read from policy/flag/user scope only; project and local settings can set it false but never true. `claude-code`, `settings`, `remote-control`
