@@ -2,6 +2,7 @@
 title: Claude Code Remote Control can only be switched on from user-level settings
 tags: [claude-code, settings, remote-control]
 added: 2026-08-25
+updated: 2026-08-26
 sources:
   - https://docs.claude.com/en/docs/claude-code/settings
 ---
@@ -42,3 +43,21 @@ project or local scope beats a `true` from user scope.
 
 An administrator can remove the feature entirely with `disableRemoteControl` in
 managed settings, which overrides all of the above.
+
+## The setting arms a start, not a resume
+
+`remoteControlAtStartup` is read when a session process starts fresh. A session
+that is *resumed* into a new process comes back without the bridge, even with the
+setting true — nothing re-arms it, and nothing says so.
+
+This bites hardest after a desktop-app auto-update: the app quits, restarts, and
+restores the open conversations. Sessions that were newly created afterwards get
+the bridge automatically; the restored ones do not, so remote control silently
+stops working for exactly the long-running session most likely to be relied on.
+
+Re-attach with `/remote-control`, or the app's per-session toggle. It reconnects
+to the same remote session rather than creating a second one, so any link already
+shared stays valid. If remote control disappears without an obvious cause, check
+whether the process was restarted before assuming a network or auth problem —
+an expired OAuth token is a different failure and does not drop an already
+connected bridge.
