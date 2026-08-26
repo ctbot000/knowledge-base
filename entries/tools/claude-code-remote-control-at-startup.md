@@ -55,9 +55,17 @@ restores the open conversations. Sessions that were newly created afterwards get
 the bridge automatically; the restored ones do not, so remote control silently
 stops working for exactly the long-running session most likely to be relied on.
 
+The omission is deliberate, not a gap. Auto-arming on resume was removed so that
+resuming a conversation cannot silently take Remote Control away from another
+session on the same machine that still holds it. Consequently there is no setting,
+environment variable, or flag that restores it automatically: the launch-time
+options that exist (`--remote-control`, `claude remote-control --continue`) apply
+to starting a session from a terminal, not to one an app restores for you.
+
 Re-attach with `/remote-control`, or the app's per-session toggle. It reconnects
 to the same remote session rather than creating a second one, so any link already
-shared stays valid. If remote control disappears without an obvious cause, check
+shared stays valid. Where losing the conversation is acceptable, starting a new
+session instead of resuming is the other way to get it back without a command. If remote control disappears without an obvious cause, check
 whether the process was restarted before assuming a network or auth problem —
 an expired OAuth token is a different failure and does not drop an already
 connected bridge.
