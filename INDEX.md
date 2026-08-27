@@ -20,6 +20,8 @@ _No entries yet._
 - [A CLI that reads piped stdin hangs when its parent leaves the pipe open](entries/practices/cli-stdin-read-hangs.md) — `isatty` says "not a terminal", not "has data"; a pipe with no writer never reaches EOF. `cli`, `stdin`, `subprocess`
 - [An interactive REPL needs one long-lived input reader, not one per prompt](entries/practices/repl-single-input-reader.md) — A reader opened per prompt drops type-ahead and every line of a paste after the first. `cli`, `repl`, `terminal`
 - [An HTTP upgrade hands over bytes already read past the handshake](entries/practices/http-upgrade-head-buffer.md) — The `head` buffer holds the new protocol's first frames; ignore it and a server's greeting vanishes on loopback. `http`, `websocket`, `protocols`
+- [An author display rule silently overrides the HTML hidden attribute](entries/practices/hidden-attribute-vs-display-rule.md) — `[hidden]` is only a UA stylesheet rule, so any class setting `display` keeps the element painted while `el.hidden` reads true. `css`, `html`, `dom`
+- [One key press runs two steps when a bubbling handler reads state an inner handler just changed](entries/practices/key-event-runs-two-steps.md) — Dispatch is synchronous, so a delegated handler sees the flag the inner one just flipped; `stopPropagation` is the fix. `dom`, `events`, `keyboard`
 
 ## systems
 
