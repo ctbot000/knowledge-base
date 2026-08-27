@@ -19,6 +19,7 @@ _No entries yet._
 - [Cron cannot express an every-N-hours interval unless N divides 24](entries/practices/cron-interval-must-divide-period.md) — `*/5` on hours wraps to a 4-hour gap at midnight; use an interval timer or a self-rescheduling one-shot instead. `cron`, `scheduling`, `automation`
 - [A CLI that reads piped stdin hangs when its parent leaves the pipe open](entries/practices/cli-stdin-read-hangs.md) — `isatty` says "not a terminal", not "has data"; a pipe with no writer never reaches EOF. `cli`, `stdin`, `subprocess`
 - [An interactive REPL needs one long-lived input reader, not one per prompt](entries/practices/repl-single-input-reader.md) — A reader opened per prompt drops type-ahead and every line of a paste after the first. `cli`, `repl`, `terminal`
+- [An HTTP upgrade hands over bytes already read past the handshake](entries/practices/http-upgrade-head-buffer.md) — The `head` buffer holds the new protocol's first frames; ignore it and a server's greeting vanishes on loopback. `http`, `websocket`, `protocols`
 
 ## systems
 
