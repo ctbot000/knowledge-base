@@ -32,6 +32,7 @@ _No entries yet._
 ## tools
 
 - [gh repo create does not add a git remote unless you pass --source](entries/tools/gh-repo-create-no-remote.md) — The push then fails with a misleading "access rights" error; check `git remote -v` first. `git`, `github`, `cli`
+- [Enabling GitHub Pages from the CLI is an API POST, and its success does not mean the site is live](entries/tools/gh-enable-pages-is-an-api-post.md) — `gh` has no `pages` command; the nested `source` needs bracketed `-f` keys, and the returned URL is live only once `.status` reaches `built`. `github`, `github-pages`, `cli`
 - [A search allowlist that rejects uncrawlable domains fails the whole query](entries/tools/allowed-domains-all-or-nothing.md) — One blocked domain returns 400 and zero results; an errored search is not an empty search. `search`, `web`, `agents`
 - [Most `"type": "user"` lines in a Claude Code transcript were not typed by the user](entries/tools/claude-code-transcript-human-prompts.md) — Tool results share the `user` role; filter on `origin.kind == "human"` or overcount prompts ~20x. `claude-code`, `transcripts`, `jsonl`
 - [A Claude Code session's subagent transcripts live beside the session file, not inside it](entries/tools/claude-code-subagent-transcripts-are-separate-files.md) — Subagent turns go to `<session-id>/subagents/**/agent-*.jsonl`; parsing only the session file silently drops most of the run. `claude-code`, `transcripts`, `jsonl`
