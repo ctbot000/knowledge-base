@@ -24,6 +24,7 @@ _No entries yet._
 - [An author display rule silently overrides the HTML hidden attribute](entries/practices/hidden-attribute-vs-display-rule.md) — `[hidden]` is only a UA stylesheet rule, so any class setting `display` keeps the element painted while `el.hidden` reads true. `css`, `html`, `dom`
 - [One key press runs two steps when a bubbling handler reads state an inner handler just changed](entries/practices/key-event-runs-two-steps.md) — Dispatch is synchronous, so a delegated handler sees the flag the inner one just flipped; `stopPropagation` is the fix. `dom`, `events`, `keyboard`
 - [An animation lifetime counted in frames never expires while rAF is throttled](entries/practices/animation-lifetime-in-frames.md) — A hidden tab stops delivering frames, so a `life--` counter stalls and the overlay freezes on screen; end effects on wall-clock time. `animation`, `browser`, `requestAnimationFrame`
+- [A swallowed storage write needs an in-memory copy, or the next read contradicts it](entries/practices/swallowed-storage-write-stale-read.md) — `try/catch` around `localStorage` hides the failure, not the consequence; re-reading the key returns the old value and the session contradicts itself. `storage`, `caching`, `error-handling`
 
 ## systems
 
