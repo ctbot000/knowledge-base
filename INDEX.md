@@ -22,6 +22,7 @@ _No entries yet._
 - [An HTTP upgrade hands over bytes already read past the handshake](entries/practices/http-upgrade-head-buffer.md) — The `head` buffer holds the new protocol's first frames; ignore it and a server's greeting vanishes on loopback. `http`, `websocket`, `protocols`
 - [An author display rule silently overrides the HTML hidden attribute](entries/practices/hidden-attribute-vs-display-rule.md) — `[hidden]` is only a UA stylesheet rule, so any class setting `display` keeps the element painted while `el.hidden` reads true. `css`, `html`, `dom`
 - [One key press runs two steps when a bubbling handler reads state an inner handler just changed](entries/practices/key-event-runs-two-steps.md) — Dispatch is synchronous, so a delegated handler sees the flag the inner one just flipped; `stopPropagation` is the fix. `dom`, `events`, `keyboard`
+- [An animation lifetime counted in frames never expires while rAF is throttled](entries/practices/animation-lifetime-in-frames.md) — A hidden tab stops delivering frames, so a `life--` counter stalls and the overlay freezes on screen; end effects on wall-clock time. `animation`, `browser`, `requestAnimationFrame`
 
 ## systems
 
@@ -35,3 +36,4 @@ _No entries yet._
 - [A Claude Code session's subagent transcripts live beside the session file, not inside it](entries/tools/claude-code-subagent-transcripts-are-separate-files.md) — Subagent turns go to `<session-id>/subagents/**/agent-*.jsonl`; parsing only the session file silently drops most of the run. `claude-code`, `transcripts`, `jsonl`
 - [Claude Desktop restarts itself to install updates, and only an MDM policy stops it](entries/tools/claude-desktop-stealth-update-restart.md) — An idle timer quits the app; restored sessions lose Remote Control and can fall back to the previous Claude Code build. `disableAutoUpdates` in managed preferences is the sole off switch. `claude-code`, `claude-desktop`, `updates`
 - [Claude Code Remote Control can only be switched on from user-level settings](entries/tools/claude-code-remote-control-at-startup.md) — `remoteControlAtStartup` is read from policy/flag/user scope only, and arms a fresh start but not a resume — an app auto-update drops it. `claude-code`, `settings`, `remote-control`
+- [Synthetic key events do not trigger the native activation a real key press does](entries/tools/synthetic-key-events-not-real-presses.md) — Untrusted events run no default action and injected ones may arrive with an empty `e.key`; check `isTrusted` before blaming the app. `testing`, `automation`, `keyboard`
