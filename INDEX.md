@@ -25,6 +25,7 @@ _No entries yet._
 - [One key press runs two steps when a bubbling handler reads state an inner handler just changed](entries/practices/key-event-runs-two-steps.md) — Dispatch is synchronous, so a delegated handler sees the flag the inner one just flipped; `stopPropagation` is the fix. `dom`, `events`, `keyboard`
 - [An animation lifetime counted in frames never expires while rAF is throttled](entries/practices/animation-lifetime-in-frames.md) — A hidden tab stops delivering frames, so a `life--` counter stalls and the overlay freezes on screen; end effects on wall-clock time. `animation`, `browser`, `requestAnimationFrame`
 - [A swallowed storage write needs an in-memory copy, or the next read contradicts it](entries/practices/swallowed-storage-write-stale-read.md) — `try/catch` around `localStorage` hides the failure, not the consequence; re-reading the key returns the old value and the session contradicts itself. `storage`, `caching`, `error-handling`
+- [An inline SVG sizes itself from its viewBox unless both axes are definite](entries/practices/svg-intrinsic-size-beats-the-box.md) — A `viewBox` ratio blows up `1fr` grid tracks and beats `position:absolute` insets, so the graphic overflows and the next row paints over it. `css`, `svg`, `layout`
 
 ## systems
 
