@@ -13,7 +13,7 @@ strict and this repository is public.
 
 ## languages
 
-_No entries yet._
+- [asyncio's Server.wait_closed() waits for live connections, not just the listener](entries/languages/asyncio-wait-closed-waits-for-connections.md) — Since Python 3.12 it blocks until every handler ends, so awaiting it before telling clients to leave deadlocks. `python`, `asyncio`, `shutdown`
 
 ## practices
 
@@ -26,6 +26,7 @@ _No entries yet._
 - [An animation lifetime counted in frames never expires while rAF is throttled](entries/practices/animation-lifetime-in-frames.md) — A hidden tab stops delivering frames, so a `life--` counter stalls and the overlay freezes on screen; end effects on wall-clock time. `animation`, `browser`, `requestAnimationFrame`
 - [A swallowed storage write needs an in-memory copy, or the next read contradicts it](entries/practices/swallowed-storage-write-stale-read.md) — `try/catch` around `localStorage` hides the failure, not the consequence; re-reading the key returns the old value and the session contradicts itself. `storage`, `caching`, `error-handling`
 - [An inline SVG sizes itself from its viewBox unless both axes are definite](entries/practices/svg-intrinsic-size-beats-the-box.md) — A `viewBox` ratio blows up `1fr` grid tracks and beats `position:absolute` insets, so the graphic overflows and the next row paints over it. `css`, `svg`, `layout`
+- [Closing a socket with unread data sends RST, which can destroy what you just wrote](entries/practices/close-with-unread-data-sends-rst.md) — The peer sees ECONNRESET instead of the error you wrote; half-close and drain before closing. `tcp`, `sockets`, `networking`
 
 ## systems
 
