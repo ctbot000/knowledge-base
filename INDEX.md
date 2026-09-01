@@ -30,6 +30,8 @@ strict and this repository is public.
 - [Electron's findInPage findNext option starts a search session, it does not step to the next match](entries/practices/findinpage-findnext-starts-a-session.md) — `findNext: false` on the first request is dropped silently and `found-in-page` never fires; omitting the option starts a session. `electron`, `browser`, `find-in-page`
 - [A shrinkable flex item contributes its content width, not its flex-basis, to an auto-sized container](entries/practices/flex-basis-does-not-size-an-auto-container.md) — `flex: 0 1 190px` renders at the text's width; use `width` for a fixed preferred size. `css`, `flexbox`, `layout`
 - [Closing a socket with unread data sends RST, which can destroy what you just wrote](entries/practices/close-with-unread-data-sends-rst.md) — The peer sees ECONNRESET instead of the error you wrote; half-close and drain before closing. `tcp`, `sockets`, `networking`
+- [One ACTIVITY_PAUSED does not mean the app left the foreground](entries/practices/activity-paused-is-not-app-backgrounded.md) — Usage events report activities, not apps; closing the session on the first pause silently under-counts foreground time. `android`, `usage-stats`, `instrumentation`
+- [checkSelfPermission(POST_NOTIFICATIONS) answers DENIED on Android below 13](entries/practices/post-notifications-denied-below-api-33.md) — The permission does not exist pre-33, so the obvious guard mutes every notification on Android 10-12. `android`, `permissions`, `notifications`
 
 ## systems
 
@@ -37,6 +39,7 @@ _No entries yet._
 
 ## tools
 
+- [Android Gradle Plugin 9 applies Kotlin itself and fails if you also apply the Kotlin plugin](entries/tools/agp9-applies-kotlin-itself.md) — The standalone `kotlin.android` plugin is now a hard build failure, and `android.kotlinOptions` is gone with it. `android`, `gradle`, `kotlin`
 - [gh repo create does not add a git remote unless you pass --source](entries/tools/gh-repo-create-no-remote.md) — The push then fails with a misleading "access rights" error; check `git remote -v` first. `git`, `github`, `cli`
 - [Enabling GitHub Pages from the CLI is an API POST, and its success does not mean the site is live](entries/tools/gh-enable-pages-is-an-api-post.md) — `gh` has no `pages` command; the nested `source` needs bracketed `-f` keys, and the returned URL is live only once `.status` reaches `built`. `github`, `github-pages`, `cli`
 - [A search allowlist that rejects uncrawlable domains fails the whole query](entries/tools/allowed-domains-all-or-nothing.md) — One blocked domain returns 400 and zero results; an errored search is not an empty search. `search`, `web`, `agents`
