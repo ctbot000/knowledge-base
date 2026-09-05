@@ -24,9 +24,7 @@ depending on which processor is in use.
 
 The failure is silent and asymmetric: display equations start working as soon as
 MathJax is loaded, which reads as "math works", while every inline expression
-stays as dollar signs. The usual reflex, setting `math_engine: null`, is both
-unnecessary and worse — kramdown then emits `<div class="kdmath">$$…$$</div>`,
-so display math depends on the delimiter list too.
+stays as dollar signs.
 
 ## How to apply
 
@@ -35,14 +33,21 @@ Load MathJax in the layout and add one delimiter:
 ```html
 <script>
   window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
     options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
   };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 ```
 
-Subscripts survive the round trip: kramdown does not apply emphasis to
-intra-word `_`, so `$a_1$` reaches MathJax intact. Give display math an
-`overflow-x: auto` container — `mjx-container[display="true"]` — or a long
-equation widens the whole page.
+Turn smart punctuation off. CommonMark's `SMART` option (and kramdown's
+`smart_quotes`) rewrites straight quotes everywhere, math included, so
+`$f'(x)$` reaches MathJax as `$f’(x)$` and the prime is silently lost.
+
+Subscripts survive: neither processor applies emphasis to intra-word `_`, so
+`$a_1$` arrives intact. MathJax cannot break math across lines, inline math
+included, so give the content column `overflow-x: auto` or one long expression
+widens the whole page.
