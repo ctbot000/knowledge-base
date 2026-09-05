@@ -16,6 +16,9 @@ correctly in the repository and shows raw TeX on the published site.
 
 MathJax 3 already recognises `\[…\]` as display math, so the whole gap is closed
 by registering `$` as an inline delimiter — no kramdown configuration is needed.
+Under CommonMark (`markdown: CommonMarkGhPages`) nothing is rewritten at all and
+`$$…$$` arrives verbatim, so configure both delimiter pairs and the layout stops
+depending on which processor is in use.
 
 ## Why it matters
 
