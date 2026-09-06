@@ -45,3 +45,6 @@ strokes silently doubles up where they cross, and moving them into one path to
   reads the alpha at a point and settles it in seconds.
 - `globalAlpha` multiplies each fill, so it scales the effect rather than
   removing it; it is not a way to flatten stacked fills.
+- A rim added with `stroke()` on the union path does not follow the silhouette;
+  it [outlines every subpath](stroke-outlines-every-subpath.md) and brings the
+  internal seams back.
