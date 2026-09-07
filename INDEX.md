@@ -13,6 +13,7 @@ strict and this repository is public.
 
 ## languages
 
+- [Node's strict assertions fail -0 against 0](entries/languages/assert-strict-rejects-negative-zero.md) — `assert.strictEqual` compares with `Object.is`, so a sign-flipping function returning `-0` fails a zero check that `===` would pass. `javascript`, `testing`, `numerics`
 - [asyncio's Server.wait_closed() waits for live connections, not just the listener](entries/languages/asyncio-wait-closed-waits-for-connections.md) — Since Python 3.12 it blocks until every handler ends, so awaiting it before telling clients to leave deadlocks. `python`, `asyncio`, `shutdown`
 
 ## practices
@@ -30,6 +31,7 @@ strict and this repository is public.
 - [A bare text node in a flex container becomes its own flex item](entries/practices/flex-container-wraps-bare-text-nodes.md) — It is wrapped in an anonymous flex item, so a label and its unit span land on separate rows and every item count is off by one. `css`, `flexbox`, `layout`
 - [An inline SVG sizes itself from its viewBox unless both axes are definite](entries/practices/svg-intrinsic-size-beats-the-box.md) — A `viewBox` ratio blows up `1fr` grid tracks and beats `position:absolute` insets, so the graphic overflows and the next row paints over it. `css`, `svg`, `layout`
 - [A no-guess puzzle board is found by rejection sampling against a solver that only makes the player's deductions](entries/practices/no-guess-puzzle-generation.md) — Keep a random board only if a deliberately weak solver clears it; cheap enough to draw on demand, but acceptance collapses as density rises. `algorithms`, `puzzles`, `game-design`
+- [Aborting a make/unmake search by throwing skips every pending unmake](entries/practices/search-abort-skips-unmake.md) — The stack unwinds past every undo, leaving the shared position as deep as the search reached; it only shows up once the object is reused. `algorithms`, `search`, `error-handling`
 - [Electron's findInPage findNext option starts a search session, it does not step to the next match](entries/practices/findinpage-findnext-starts-a-session.md) — `findNext: false` on the first request is dropped silently and `found-in-page` never fires; omitting the option starts a session. `electron`, `browser`, `find-in-page`
 - [A shrinkable flex item contributes its content width, not its flex-basis, to an auto-sized container](entries/practices/flex-basis-does-not-size-an-auto-container.md) — `flex: 0 1 190px` renders at the text's width; use `width` for a fixed preferred size. `css`, `flexbox`, `layout`
 - [Closing a socket with unread data sends RST, which can destroy what you just wrote](entries/practices/close-with-unread-data-sends-rst.md) — The peer sees ECONNRESET instead of the error you wrote; half-close and drain before closing. `tcp`, `sockets`, `networking`
