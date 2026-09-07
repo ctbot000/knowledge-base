@@ -2,6 +2,7 @@
 title: A layout measured while the surface is hidden is zero, and rescaling from it cannot recover
 tags: [css, layout, canvas, frontend]
 added: 2026-09-07
+updated: 2026-09-08
 sources:
   - https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
 ---
@@ -39,3 +40,10 @@ where the zero arrives.
   stretched old one. Rescaling is for state that must be preserved.
 - Store positions in units that survive a re-layout — grid cells, fractions of a
   container — so a resize changes only the conversion to pixels.
+- The collapse reaches CSS too: in such a surface the viewport itself reports 0,
+  so every `vw`/`vh`-derived custom property resolves to zero and any size built
+  on it — font sizes included — disappears. Floor the token itself:
+  `--size: max(11rem, min(20rem, 78vw))`.
+- Recover automatically rather than measuring once: a `ResizeObserver` on the
+  element fires as soon as it has a real box, which is the moment the surface
+  becomes visible.
