@@ -60,6 +60,8 @@ strict and this repository is public.
 - [A lifecycle autosave persists the placeholder state behind the menu](entries/practices/autosave-persists-placeholder-state.md) — beforeunload fires for the demo world under the title card, so a first-time visitor is offered "Continue" for a session they never began. `persistence`, `ui`, `browser`
 - [Fitting text into a narrowing shape needs a search over wrap width, not just font size](entries/practices/fitting-text-to-a-shape.md) — Shrinking the font wraps the text into fewer, longer lines, so the single-variable loop bottoms out still overflowing. `css`, `typography`, `layout`
 - [A steeper entry angle widens the target, so the best shot is the one that leaves the frame](entries/practices/steep-entry-widens-the-target.md) — Effective opening scales with the entry angle's sine, so the widest-window trajectory is also the tallest; measure apexes, not just makes. `game-design`, `balance`, `camera`
+- [A flawless simulated player measures an opponent's survival, never its win rate](entries/practices/flawless-player-measures-survival.md) — A perfect controller shuts out every tier, so difficulty has to be read from rally length; win rates need a fallible controller. `game-design`, `testing`, `simulation`
+- [Injected aim error does nothing until it exceeds the catcher's own tolerance](entries/practices/injected-error-below-tolerance-is-inert.md) — An error smaller than half the paddle plus the ball radius yields a zero miss rate, so the difficulty dial reads as tuned while rallies never end. `game-design`, `balance`, `simulation`
 
 ## systems
 
