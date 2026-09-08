@@ -2,6 +2,7 @@
 title: Simulated player error must be sampled per decision, not per tick
 tags: [game-design, simulation, testing, balance]
 added: 2026-09-06
+updated: 2026-09-08
 ---
 
 ## Fact
@@ -37,5 +38,8 @@ from where it should be, and the simulation keeps agreeing with itself.
 - Sanity-check the model before trusting the balance numbers: a perfect bot
   should never die on a fair game, and survival should fall monotonically as the
   noise rises. A flat curve means the handicap is not reaching the outcome.
+- The rule governs **measurement** too, and there it under-reports: ticks in
+  which nothing is being decided dilute the denominator. One "fraction of balls
+  that cannot be reached" read 3.5% per tick and 19% per exchange.
 
 Related: [[skill-meter-needs-escalation]].
