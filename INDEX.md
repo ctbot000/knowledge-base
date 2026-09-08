@@ -15,6 +15,7 @@ strict and this repository is public.
 
 - [Node's strict assertions fail -0 against 0](entries/languages/assert-strict-rejects-negative-zero.md) — `assert.strictEqual` compares with `Object.is`, so a sign-flipping function returning `-0` fails a zero check that `===` would pass. `javascript`, `testing`, `numerics`
 - [asyncio's Server.wait_closed() waits for live connections, not just the listener](entries/languages/asyncio-wait-closed-waits-for-connections.md) — Since Python 3.12 it blocks until every handler ends, so awaiting it before telling clients to leave deadlocks. `python`, `asyncio`, `shutdown`
+- [Math.max cannot floor a NaN, so a clamped loop bound can still run zero times](entries/languages/math-max-cannot-floor-nan.md) — `Math.max(1, NaN)` is NaN, so the loop runs zero times while the `!== 0` liveness test keeps reporting the entity as moving. `javascript`, `numerics`, `simulation`
 
 ## practices
 
@@ -62,6 +63,7 @@ strict and this repository is public.
 - [A perfectly regular packing passes an impulse straight through instead of scattering](entries/practices/perfect-packing-transmits-impulse.md) — Sequential pair collisions on an exact lattice act as a Newton's cradle: one body leaves fast, the rest sit still, and every collision is individually correct. `simulation`, `physics`, `game-design`
 - [Framing a box in a perspective camera is a per-corner solve, not a bounding sphere](entries/practices/framing-a-box-is-a-per-corner-solve.md) — A sphere fit is orientation-blind and empties a portrait frame; projecting extents instead clips the near corners. `3d`, `camera`, `layout`
 - [A steeper entry angle widens the target, so the best shot is the one that leaves the frame](entries/practices/steep-entry-widens-the-target.md) — Effective opening scales with the entry angle's sine, so the widest-window trajectory is also the tallest; measure apexes, not just makes. `game-design`, `balance`, `camera`
+- [Sweep the action space before tuning difficulty — "hard" and "impossible" look identical from inside the game](entries/practices/measure-solution-density-before-tuning.md) — Brute-force the aim/power space from real positions: near-zero solution density is a physics fault no amount of search or aim assist can fix. `game-design`, `simulation`, `testing`
 - [A flawless simulated player measures an opponent's survival, never its win rate](entries/practices/flawless-player-measures-survival.md) — A perfect controller shuts out every tier, so difficulty has to be read from rally length; win rates need a fallible controller. `game-design`, `testing`, `simulation`
 - [Injected aim error does nothing until it exceeds the catcher's own tolerance](entries/practices/injected-error-below-tolerance-is-inert.md) — An error smaller than half the paddle plus the ball radius yields a zero miss rate, so the difficulty dial reads as tuned while rallies never end. `game-design`, `balance`, `simulation`
 
