@@ -20,6 +20,7 @@ strict and this repository is public.
 ## practices
 
 - [Cron cannot express an every-N-hours interval unless N divides 24](entries/practices/cron-interval-must-divide-period.md) — `*/5` on hours wraps to a 4-hour gap at midnight; use an interval timer or a self-rescheduling one-shot instead. `cron`, `scheduling`, `automation`
+- [A regenerate-and-commit job must produce output that is a pure function of its input](entries/practices/generated-output-must-be-a-pure-function.md) — A build timestamp in the generated file makes every scheduled run commit, burying the one run that changed something. `automation`, `ci`, `code-generation`
 - [A CLI that reads piped stdin hangs when its parent leaves the pipe open](entries/practices/cli-stdin-read-hangs.md) — `isatty` says "not a terminal", not "has data"; a pipe with no writer never reaches EOF. `cli`, `stdin`, `subprocess`
 - [An interactive REPL needs one long-lived input reader, not one per prompt](entries/practices/repl-single-input-reader.md) — A reader opened per prompt drops type-ahead and every line of a paste after the first. `cli`, `repl`, `terminal`
 - [An HTTP upgrade hands over bytes already read past the handshake](entries/practices/http-upgrade-head-buffer.md) — The `head` buffer holds the new protocol's first frames; ignore it and a server's greeting vanishes on loopback. `http`, `websocket`, `protocols`
@@ -86,6 +87,7 @@ _No entries yet._
 
 - [Android Gradle Plugin 9 applies Kotlin itself and fails if you also apply the Kotlin plugin](entries/tools/agp9-applies-kotlin-itself.md) — The standalone `kotlin.android` plugin is now a hard build failure, and `android.kotlinOptions` is gone with it. `android`, `gradle`, `kotlin`
 - [gh repo create does not add a git remote unless you pass --source](entries/tools/gh-repo-create-no-remote.md) — The push then fails with a misleading "access rights" error; check `git remote -v` first. `git`, `github`, `cli`
+- [A repository's Pages URL is usually absent from its `homepage` field](entries/tools/github-pages-url-not-in-homepage.md) — Enumerate sites by `has_pages` and derive the URL from the repo name; filtering on `homepage` drops most of them with no error. `github`, `github-pages`, `api`
 - [Enabling GitHub Pages from the CLI is an API POST, and its success does not mean the site is live](entries/tools/gh-enable-pages-is-an-api-post.md) — `gh` has no `pages` command; the nested `source` needs bracketed `-f` keys, and the returned URL is live only once `.status` reaches `built`. `github`, `github-pages`, `cli`
 - [Two projects served on the same localhost port share one browser cache](entries/tools/localhost-port-shares-one-cache.md) — The browser serves the other project's file at the same URL, so an import fails naming an export the file on disk plainly has. `web`, `caching`, `dev-server`
 - [A cache-busting query on a page does not bust the CSS and JS it links](entries/tools/static-server-cache-hides-edits.md) — Dev static servers send no `Cache-Control`, so an edit that "did not apply" is a stale subresource, not a bad edit. `web`, `caching`, `static-sites`
