@@ -2,6 +2,7 @@
 title: element.focus() moves activeElement but fires no focus event while the view lacks system focus
 tags: [testing, automation, dom, focus]
 added: 2026-09-01
+updated: 2026-09-11
 sources:
   - https://html.spec.whatwg.org/multipage/interaction.html#focusing-steps
   - https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
@@ -28,6 +29,10 @@ that focuses the same field in a window that does hold focus passes every time.
 
 ## How to apply
 
+- Confirm the cause in one call before theorising: `document.hasFocus()` is
+  `false` exactly when this applies. Automation panes and embedded previews
+  routinely report `false` for a whole session, so every `focus()` in that run
+  moves `activeElement` and fires nothing.
 - Focus the view before the element: in Electron `webContents.focus()`, in a
   browser `window.focus()`, and only then the field.
 - Prefer real input injection for anything focus-dependent —
