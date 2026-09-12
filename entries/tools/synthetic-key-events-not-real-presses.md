@@ -2,7 +2,7 @@
 title: Synthetic key events do not trigger the native activation a real key press does
 tags: [testing, automation, dom, keyboard]
 added: 2026-08-29
-updated: 2026-09-07
+updated: 2026-09-12
 sources:
   - https://dom.spec.whatwg.org/#trusted-events
   - https://developer.mozilla.org/en-US/docs/Web/API/Event/isTrusted
@@ -46,7 +46,11 @@ application state, focus, or event ordering, none of which are the cause.
 - Send the DOM key value, not its alias: `Enter`, `ArrowLeft`, `Escape`,
   `Backspace`. This is the fix in most cases, and it is cheaper than changing the
   application to accommodate the harness.
-- `e.code` is worth matching for layout independence but is not a fallback here:
-  an injection that drops `key` frequently drops `code` in the same event.
+- `e.code` is worth matching for layout independence, but it is not a reliable
+  fallback, and it fails in both directions: an injection that drops `key` often
+  drops `code` with it, while a driver that takes a *character* rather than a key
+  name sends the mirror image — `key: "e"` with `code: ""` — which silently
+  defeats a handler matching on `code` alone. Accept either, deriving a code from
+  `key` when `code` is empty.
 - Assert keyboard paths through the application's own state, not through the
   rendered result of a native default action.
