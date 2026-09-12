@@ -114,6 +114,8 @@ strict and this repository is public.
 - [A duck-and-restore that reads its restore level from the live node latches the ducked value](entries/practices/duck-restore-reads-live-value.md) — Two overlapping ducks make zero the value to restore, so the bus is muted for the rest of the session with nothing left to undo it. `web-audio`, `state`, `audio`
 - [A continuous payout rounded at every tick pays out nothing](entries/practices/per-tick-rounded-payout-floors-to-zero.md) — A per-frame share under one unit rounds to 0 every frame, so a smoother update loop is what breaks it; carry the remainder. `game-design`, `numerics`, `simulation`
 - [A difficulty tier defined by an absolute threshold is not a tier](entries/practices/graded-tiers-need-relative-thresholds.md) — Tiers pinned to a grid collapse into each other wherever the content already sits on it; define each as a share of the full set. `game-design`, `procedural-generation`, `balance`
+- [A clock that switches sources must rebase from a live reading, not from the value it last returned](entries/practices/clock-rebase-needs-a-live-anchor.md) — The last handed-out value is as stale as its last caller, so the handover rewinds the clock by however long the app sat idle. `clocks`, `web-audio`, `frontend`
+- [A timeline read from an absolute clock absorbs a jump by moving its epoch, not by clamping a delta](entries/practices/absolute-timeline-absorbs-a-jump-by-moving-its-epoch.md) — The jump is already in `clock() - epoch`; applying it fires every event in the skipped span at once, which reads as a logic bug downstream. `game-loop`, `timing`, `frontend`
 
 ## systems
 
