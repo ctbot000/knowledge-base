@@ -111,6 +111,9 @@ strict and this repository is public.
 - [A path across a height field must be solved from the surface's own slope, not given a height of its own](entries/practices/path-on-a-surface-must-be-solved-not-drawn.md) — Two independent functions agree only by accident; heading `G/g` into the fall line gives grade `G` by construction. `procedural-generation`, `terrain`, `geometry`
 - [A shading rule keyed on a grid-sampled slope renders narrow features as a row of teeth](entries/practices/grid-sampled-derivative-beats-against-a-shading-threshold.md) — Smooth geometry and smooth normals with teeth in the shaded render means the fault is in the colour; low-pass the slope before any threshold. `graphics`, `terrain`, `debugging`
 - [A state that zeroes a recovery rate is a dead end, not a penalty](entries/practices/zeroed-recovery-is-a-trap-not-a-cost.md) — The run neither wins nor loses, so win rate reports nothing; floor the rate and count stalled episodes. `game-design`, `balance`, `simulation`
+- [A duck-and-restore that reads its restore level from the live node latches the ducked value](entries/practices/duck-restore-reads-live-value.md) — Two overlapping ducks make zero the value to restore, so the bus is muted for the rest of the session with nothing left to undo it. `web-audio`, `state`, `audio`
+- [A continuous payout rounded at every tick pays out nothing](entries/practices/per-tick-rounded-payout-floors-to-zero.md) — A per-frame share under one unit rounds to 0 every frame, so a smoother update loop is what breaks it; carry the remainder. `game-design`, `numerics`, `simulation`
+- [A difficulty tier defined by an absolute threshold is not a tier](entries/practices/graded-tiers-need-relative-thresholds.md) — Tiers pinned to a grid collapse into each other wherever the content already sits on it; define each as a share of the full set. `game-design`, `procedural-generation`, `balance`
 
 ## systems
 
