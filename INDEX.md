@@ -120,6 +120,9 @@ strict and this repository is public.
 ## systems
 
 _No entries yet._
+- [An entity that acts on its own schedule also acts while a test is staging the scene](entries/practices/autonomous-actors-act-during-test-setup.md) — The action under test is counted alongside the ones the entity took by itself, so an exact-count assertion fails and a lower-bound one passes for the wrong reason. `testing`, `simulation`, `game-design`
+- [A placement bot scored on total coverage stacks every unit on one spot and measures itself](entries/practices/marginal-coverage-scores-the-level.md) — The score does not change as units are placed, so coverage read 43% instead of 99% and the level got blamed; weight each threat point by how well it is already covered. `game-design`, `testing`, `simulation`
+- [A difficulty curve is not monotonic in any single resource, so a test must assert the trend](entries/practices/difficulty-is-not-monotonic-in-one-resource.md) — A level that trades health for a new threat reads as a dip and the invariant fails on exactly the content worth protecting; compare across the design's own cycle length. `game-design`, `testing`, `level-design`
 
 ## tools
 
@@ -156,3 +159,4 @@ _No entries yet._
 - [An outcome flag read after the round resets reports the reset value, not the outcome](entries/tools/outcome-flag-read-after-reset.md) — Completing an attempt and preparing the next are one transition, so a late-sampled probe returns a flattering, plausible number. `testing`, `instrumentation`, `game-loop`
 - [A test harness that steps only the simulation is a different system from the one the frame loop runs](entries/tools/driven-harness-must-drive-the-frame.md) — Camera smoothing and other per-render integrators advance once per batch, so the picture shows a state the app would never reach. `testing`, `game-loop`, `graphics`
 - [Stubbing requestAnimationFrame to freeze an app also freezes the surface that captures it](entries/tools/raf-stub-freezes-the-capture.md) — The image goes arbitrarily stale while the DOM and canvas hold the new state; freeze the simulation's rates instead of the frame loop. `testing`, `automation`, `browser`
+- [node --test expands glob patterns only from Node 22, and before that reports the pattern as a missing path](entries/tools/node-test-glob-needs-node-22.md) — A quoted glob in an npm script passes locally and fails on an older CI Node with an error naming a path, not a version. `node`, `testing`, `ci`
