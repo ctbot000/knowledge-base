@@ -101,6 +101,8 @@ strict and this repository is public.
 - [In a width-scaled projection, camera height must scale with the inverse aspect ratio](entries/practices/camera-height-scales-with-inverse-aspect.md) — A narrow viewport's nearest visible ground collapses, so one huge near polygon fills a third of the screen and reads as a culling bug. `3d`, `camera`, `layout`
 - [A rate-limited agent must score where it will be on arrival, not the candidate position itself](entries/practices/score-the-predicted-position-not-the-destination.md) — It commits to gaps it cannot reach, and raising the avoidance penalty pushes harder toward the unreachable one. `game-design`, `control`, `ai`
 - [A spacing rule enforced only at spawn time does not hold once the entities move](entries/practices/spawn-time-constraints-do-not-survive-motion.md) — Placement and movement are both correct; the constraint has no authority over the interval between them. `procedural-generation`, `game-design`, `simulation`
+- [Redefining grid-template-areas re-points the existing track list at different areas](entries/practices/grid-track-list-is-positional.md) — The sizes stay put while the areas move under them, and any row the list does not cover falls to `grid-auto-rows`; it breaks at one breakpoint only. `css`, `grid`, `layout`
+- [A generated-puzzle test that reads the answer key never tests the clue](entries/practices/puzzle-tests-must-parse-the-clue.md) — Applying `puzzle.answer` proves the lock accepts its own key; parse the answer back out of the rendered clue or an unsolvable room passes every test. `testing`, `puzzles`, `game-design`
 
 ## systems
 
