@@ -105,6 +105,11 @@ strict and this repository is public.
 - [Redefining grid-template-areas re-points the existing track list at different areas](entries/practices/grid-track-list-is-positional.md) — The sizes stay put while the areas move under them, and any row the list does not cover falls to `grid-auto-rows`; it breaks at one breakpoint only. `css`, `grid`, `layout`
 - [A generated-puzzle test that reads the answer key never tests the clue](entries/practices/puzzle-tests-must-parse-the-clue.md) — Applying `puzzle.answer` proves the lock accepts its own key; parse the answer back out of the rendered clue or an unsolvable room passes every test. `testing`, `puzzles`, `game-design`
 - [A submit function that stores its own argument overwrites the widget state it was derived from](entries/practices/validator-overwrites-widget-state.md) — Indices in, symbols back out: the rejected attempt looks fine and the control only breaks the next time it is built from state, persisted corruption included. `ui`, `state`, `frontend`
+- [A level terrace cut into a slope always has a steep uphill bank, and no blend shape avoids it](entries/practices/terrace-bank-is-set-by-the-face.md) — The cut has to be given back within the blend, so the bank is about 1.4x the face's own slope whatever the window shape. `terrain`, `level-design`, `game-design`
+- [Blending toward the nearest point on a path creases wherever the nearest point flips](entries/practices/nearest-point-blend-creases-at-the-medial-axis.md) — At a hairpin the two legs hold different values, leaving a step down the middle of the corridor; average over every sample in range instead. `graphics`, `terrain`, `procedural-generation`
+- [A path across a height field must be solved from the surface's own slope, not given a height of its own](entries/practices/path-on-a-surface-must-be-solved-not-drawn.md) — Two independent functions agree only by accident; heading `G/g` into the fall line gives grade `G` by construction. `procedural-generation`, `terrain`, `geometry`
+- [A shading rule keyed on a grid-sampled slope renders narrow features as a row of teeth](entries/practices/grid-sampled-derivative-beats-against-a-shading-threshold.md) — Smooth geometry and smooth normals with teeth in the shaded render means the fault is in the colour; low-pass the slope before any threshold. `graphics`, `terrain`, `debugging`
+- [A state that zeroes a recovery rate is a dead end, not a penalty](entries/practices/zeroed-recovery-is-a-trap-not-a-cost.md) — The run neither wins nor loses, so win rate reports nothing; floor the rate and count stalled episodes. `game-design`, `balance`, `simulation`
 
 ## systems
 
@@ -112,6 +117,7 @@ _No entries yet._
 
 ## tools
 
+- [A three.js light's shadow camera ignores the bounds you assign until updateProjectionMatrix is called](entries/tools/shadow-camera-bounds-need-updateprojectionmatrix.md) — LightShadow rebuilds the view matrix every frame but never the projection, so the box stays 10x10 and a normalBias sized for the real one paints spurious shadow. `threejs`, `webgl`, `shadows`
 - [Android Gradle Plugin 9 applies Kotlin itself and fails if you also apply the Kotlin plugin](entries/tools/agp9-applies-kotlin-itself.md) — The standalone `kotlin.android` plugin is now a hard build failure, and `android.kotlinOptions` is gone with it. `android`, `gradle`, `kotlin`
 - [gh repo create does not add a git remote unless you pass --source](entries/tools/gh-repo-create-no-remote.md) — The push then fails with a misleading "access rights" error; check `git remote -v` first. `git`, `github`, `cli`
 - [A repository's Pages URL is usually absent from its `homepage` field](entries/tools/github-pages-url-not-in-homepage.md) — Enumerate sites by `has_pages` and derive the URL from the repo name; filtering on `homepage` drops most of them with no error. `github`, `github-pages`, `api`
