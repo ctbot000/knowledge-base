@@ -116,6 +116,7 @@ strict and this repository is public.
 - [A difficulty tier defined by an absolute threshold is not a tier](entries/practices/graded-tiers-need-relative-thresholds.md) — Tiers pinned to a grid collapse into each other wherever the content already sits on it; define each as a share of the full set. `game-design`, `procedural-generation`, `balance`
 - [A clock that switches sources must rebase from a live reading, not from the value it last returned](entries/practices/clock-rebase-needs-a-live-anchor.md) — The last handed-out value is as stale as its last caller, so the handover rewinds the clock by however long the app sat idle. `clocks`, `web-audio`, `frontend`
 - [A timeline read from an absolute clock absorbs a jump by moving its epoch, not by clamping a delta](entries/practices/absolute-timeline-absorbs-a-jump-by-moving-its-epoch.md) — The jump is already in `clock() - epoch`; applying it fires every event in the skipped span at once, which reads as a logic bug downstream. `game-loop`, `timing`, `frontend`
+- [An armed-tool mode that survives its own success turns every later click into a refusal](entries/practices/armed-mode-must-disarm-on-success.md) — The apply looked fine; the damage lands one click later as a confident sentence about the target, so the user blames the target and not the mode. `ui`, `interaction-design`, `frontend`
 
 ## systems
 
