@@ -119,6 +119,7 @@ strict and this repository is public.
 - [An armed-tool mode that survives its own success turns every later click into a refusal](entries/practices/armed-mode-must-disarm-on-success.md) — The apply looked fine; the damage lands one click later as a confident sentence about the target, so the user blames the target and not the mode. `ui`, `interaction-design`, `frontend`
 - [Container query units resolve against an ancestor container, never the element's own](entries/practices/container-units-skip-their-own-container.md) — `120cqw` on the container itself silently measures the viewport; a custom property holding one resolves where it is used, so half the geometry can be right. `css`, `layout`, `container-queries`
 - [The scaffolding of a CSS 3D scene intercepts the pointer for everything inside it](entries/practices/preserve-3d-scaffolding-eats-the-pointer.md) — The wrappers are flat boxes at the camera plane, so they win the hit test against the very children they position; painting still looks right. `css`, `3d`, `pointer-events`
+- [A solvability test cannot see a trivially solvable instance](entries/practices/solvable-is-not-the-same-as-worth-solving.md) — A fallback or an unconstrained distractor can make the answer a single click, and a seed sweep that only asks "is it solvable" says yes fastest of all. `procedural-generation`, `puzzles`, `testing`
 
 ## systems
 
