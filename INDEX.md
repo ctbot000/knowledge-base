@@ -118,6 +118,7 @@ strict and this repository is public.
 - [A timeline read from an absolute clock absorbs a jump by moving its epoch, not by clamping a delta](entries/practices/absolute-timeline-absorbs-a-jump-by-moving-its-epoch.md) — The jump is already in `clock() - epoch`; applying it fires every event in the skipped span at once, which reads as a logic bug downstream. `game-loop`, `timing`, `frontend`
 - [An armed-tool mode that survives its own success turns every later click into a refusal](entries/practices/armed-mode-must-disarm-on-success.md) — The apply looked fine; the damage lands one click later as a confident sentence about the target, so the user blames the target and not the mode. `ui`, `interaction-design`, `frontend`
 - [Container query units resolve against an ancestor container, never the element's own](entries/practices/container-units-skip-their-own-container.md) — `120cqw` on the container itself silently measures the viewport; a custom property holding one resolves where it is used, so half the geometry can be right. `css`, `layout`, `container-queries`
+- [The scaffolding of a CSS 3D scene intercepts the pointer for everything inside it](entries/practices/preserve-3d-scaffolding-eats-the-pointer.md) — The wrappers are flat boxes at the camera plane, so they win the hit test against the very children they position; painting still looks right. `css`, `3d`, `pointer-events`
 
 ## systems
 
@@ -162,3 +163,5 @@ _No entries yet._
 - [A test harness that steps only the simulation is a different system from the one the frame loop runs](entries/tools/driven-harness-must-drive-the-frame.md) — Camera smoothing and other per-render integrators advance once per batch, so the picture shows a state the app would never reach. `testing`, `game-loop`, `graphics`
 - [Stubbing requestAnimationFrame to freeze an app also freezes the surface that captures it](entries/tools/raf-stub-freezes-the-capture.md) — The image goes arbitrarily stale while the DOM and canvas hold the new state; freeze the simulation's rates instead of the frame loop. `testing`, `automation`, `browser`
 - [node --test expands glob patterns only from Node 22, and before that reports the pattern as a missing path](entries/tools/node-test-glob-needs-node-22.md) — A quoted glob in an npm script passes locally and fails on an older CI Node with an error naming a path, not a version. `node`, `testing`, `ci`
+
+- [element.click() proves the handler runs, not that anything can reach the control](entries/tools/element-click-does-not-hit-test.md) — It never hit-tests, so a suite driving a covered or pointer-events-disabled control passes while the feature is dead for everyone. `testing`, `automation`, `dom`
