@@ -117,6 +117,7 @@ strict and this repository is public.
 - [A clock that switches sources must rebase from a live reading, not from the value it last returned](entries/practices/clock-rebase-needs-a-live-anchor.md) — The last handed-out value is as stale as its last caller, so the handover rewinds the clock by however long the app sat idle. `clocks`, `web-audio`, `frontend`
 - [A timeline read from an absolute clock absorbs a jump by moving its epoch, not by clamping a delta](entries/practices/absolute-timeline-absorbs-a-jump-by-moving-its-epoch.md) — The jump is already in `clock() - epoch`; applying it fires every event in the skipped span at once, which reads as a logic bug downstream. `game-loop`, `timing`, `frontend`
 - [An armed-tool mode that survives its own success turns every later click into a refusal](entries/practices/armed-mode-must-disarm-on-success.md) — The apply looked fine; the damage lands one click later as a confident sentence about the target, so the user blames the target and not the mode. `ui`, `interaction-design`, `frontend`
+- [Container query units resolve against an ancestor container, never the element's own](entries/practices/container-units-skip-their-own-container.md) — `120cqw` on the container itself silently measures the viewport; a custom property holding one resolves where it is used, so half the geometry can be right. `css`, `layout`, `container-queries`
 
 ## systems
 
