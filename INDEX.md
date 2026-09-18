@@ -137,6 +137,7 @@ _No entries yet._
 - [The camera pitch that fits a ground plane to a frame is asin(footprintAspect / canvasAspect)](entries/practices/ground-plane-pitch-from-canvas-aspect.md) — Pitch picked by eye is wrong at every other window size, and sizing a 3D canvas to the subject's 2D footprint wastes the frame; clamp so it never solves to straight down. `3d`, `camera`, `layout`
 - [A pointer gesture is completed by the element it started on, not by the one under the release](entries/practices/gesture-completion-belongs-to-its-press.md) — Listening for pointerup on window and then testing e.target discards every real click while drag keeps working, so it reads as a dead action. `dom`, `events`, `pointer-events`
 - [In a 3D scene, assert that every interactive cell round-trips from its own pixel back to itself](entries/practices/pick-round-trip-proves-the-3d-contract.md) — Clicking and looking passes near top-down and fails once the camera is orbited; keep the projection maths out of the GPU so the sweep runs headlessly. `3d`, `testing`, `input`
+- [A radial kernel sized in pixels is an ellipse in grid terms whenever the cells are not square](entries/practices/radial-kernel-on-a-non-square-grid.md) — No single pixel sigma is round in cells, so the blob starves along one axis and the low count reads as a bad threshold. `graphics`, `canvas`, `layout`
 
 ## tools
 

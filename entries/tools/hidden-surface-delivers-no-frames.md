@@ -2,6 +2,7 @@
 title: An automation surface that is hidden delivers no animation frames, so a rAF-driven app cannot be driven through it
 tags: [testing, automation, browser, frontend]
 added: 2026-09-05
+updated: 2026-09-19
 ---
 
 ## Fact
@@ -19,6 +20,11 @@ the state you read back is whatever it was when the pane went hidden.
 The tell is an internal clock that will not move: sample the app's own
 accumulated time twice across a real delay, and it reads identical.
 
+An injected script that *waits* for a frame does not return a wrong answer — it
+never returns at all. `await new Promise(r => requestAnimationFrame(r))` inside
+an evaluate call hangs until the automation tool's own timeout fires, which
+also abandons every remaining step of a batched call.
+
 ## Why it matters
 
 Every conclusion drawn this way is wrong in the same direction — the feature
@@ -33,6 +39,8 @@ taken there report a device shape that does not exist.
 ## How to apply
 
 - Check `document.hidden` before concluding anything about a running loop.
+- Never `await` a frame in an injected script. Settle on a timer, or simply
+  take the next action; a timer still fires where a frame does not.
 - Expose a deterministic step for automation — a function that runs N fixed
   timesteps of update and then draws once. Driving that is faster and more
   reproducible than waiting on real frames, and it makes the whole run seedable.
