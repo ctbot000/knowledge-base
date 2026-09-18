@@ -2,6 +2,7 @@
 title: Enabling GitHub Pages from the CLI is an API POST, and its success does not mean the site is live
 tags: [github, github-pages, cli]
 added: 2026-08-29
+updated: 2026-09-18
 sources:
   - https://docs.github.com/en/rest/pages/pages#create-a-github-pages-site
   - https://cli.github.com/manual/gh_api
@@ -10,37 +11,40 @@ sources:
 ## Fact
 
 `gh` has no `pages` command. Turning Pages on for a repository is a `POST` to
-`repos/{owner}/{repo}/pages`, and the `source` object it requires is written with
-bracketed `-f` keys, not as JSON:
+`repos/{owner}/{repo}/pages`, and the `source` object a branch-built site needs
+is written with bracketed `-f` keys, not as JSON:
 
 ```bash
 gh api -X POST repos/OWNER/REPO/pages -f "source[branch]=main" -f "source[path]=/"
+gh api -X POST repos/OWNER/REPO/pages -f build_type=workflow   # built by Actions
 ```
 
-The response comes back immediately with `html_url` already filled in and
-`"status": null` — no build has run yet. The status then moves to `building` and
-only later to `built`, tens of seconds afterwards.
+Either way the response comes back immediately with `html_url` already filled in
+and `"status": null` — no build has run yet. What that status does next depends
+on the builder. A branch-built site moves to `building` and then to `built`. A
+workflow-built one never reports a status at all: `.status` stays `null` for the
+life of the site and `pages/builds/latest` answers 404, because both describe
+the legacy builder only.
 
 ## Why it matters
 
-The populated `html_url` in the response reads as "the site is up", so a script
-that creates Pages and then fetches the URL — or an agent that reports the link
-to a user — is racing a build that has not started. Nothing is published at that
-path yet, so the fetch fails in a way that looks like a broken deployment rather
-than an unfinished one.
+The populated `html_url` reads as "the site is up", so a script that creates
+Pages and then fetches the URL — or an agent that reports the link to a user —
+is racing a build that has not started.
 
-The `-f` shape is the other half: `-f` takes flat `key=value` pairs, so an
-endpoint wanting a nested object needs the bracket form. `-f source=main` cannot
-express it, and the error is about the field rather than about Pages.
+The obvious guard against that, polling until `.status` is `built`, then hangs
+forever on a workflow-built site. The field it waits on is not merely unset yet;
+it is never written.
 
 ## How to apply
 
-- Poll the resource until the build lands, before announcing the URL:
+- Branch-built — poll the resource, treating `errored` as a stop condition:
 
   ```bash
   until [ "$(gh api repos/OWNER/REPO/pages --jq .status)" = built ]; do sleep 10; done
   ```
 
-- Treat `errored` as a stop condition too; `gh api repos/OWNER/REPO/pages/builds/latest
-  --jq .error.message` says why.
+- Workflow-built — wait on the run, then on the deployment
+  (`gh api repos/OWNER/REPO/deployments --jq '.[0].environment'` is
+  `github-pages`), or simply fetch the URL and require a 200.
 - Use bracketed keys for any nested object an endpoint wants, not only this one.

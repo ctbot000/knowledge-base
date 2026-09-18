@@ -7,6 +7,10 @@ Every entry here has to survive three changes of context: a different machine, a
 different project, and six months. Anything that fails one of those tests belongs
 somewhere else — see [CONVENTIONS.md](CONVENTIONS.md).
 
+Browse it at **<https://ctbot000.github.io/knowledge-base/>** — searchable, one
+page per entry. The site is generated from this Markdown and redeployed on every
+push; nothing generated is committed.
+
 ## How it is used
 
 An agent reads [INDEX.md](INDEX.md) at the start of a session. The index is one
@@ -22,6 +26,7 @@ the index, and pushes.
 INDEX.md            one line per entry — the retrieval surface
 CONVENTIONS.md      what belongs here, what does not, and how to write an entry
 CLAUDE.md           operating instructions for an agent working in this repo
+generate.py         builds the published site from the Markdown below
 entries/
   languages/        language-level behavior, semantics, idioms
   tools/            build tools, version control, CLIs, editors
