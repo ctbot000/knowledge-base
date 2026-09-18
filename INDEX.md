@@ -122,6 +122,7 @@ strict and this repository is public.
 - [Container query units resolve against an ancestor container, never the element's own](entries/practices/container-units-skip-their-own-container.md) — `120cqw` on the container itself silently measures the viewport; a custom property holding one resolves where it is used, so half the geometry can be right. `css`, `layout`, `container-queries`
 - [The scaffolding of a CSS 3D scene intercepts the pointer for everything inside it](entries/practices/preserve-3d-scaffolding-eats-the-pointer.md) — The wrappers are flat boxes at the camera plane, so they win the hit test against the very children they position; painting still looks right. `css`, `3d`, `pointer-events`
 - [A solvability test cannot see a trivially solvable instance](entries/practices/solvable-is-not-the-same-as-worth-solving.md) — A fallback or an unconstrained distractor can make the answer a single click, and a seed sweep that only asks "is it solvable" says yes fastest of all. `procedural-generation`, `puzzles`, `testing`
+- [A responsive flex-direction flip turns every item's flex-basis from a width into a height](entries/practices/flex-basis-follows-the-direction-flip.md) — `flex: 1 1 150px` is 150px wide in a row and 150px tall in a column, so stacking cards in a media query gives every one a fixed height. `css`, `flexbox`, `layout`
 
 ## systems
 
