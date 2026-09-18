@@ -778,7 +778,7 @@ def build_conventions():
 </div>
 </article>
 {footer()}"""
-    return page(f"Conventions &middot; knowledge base", body, description="What belongs in this knowledge base and how an entry is written.")
+    return page("Conventions · knowledge base", body, description="What belongs in this knowledge base and how an entry is written.")
 
 
 def build_404():
@@ -788,7 +788,7 @@ def build_404():
 <p class="meta"><a href="/knowledge-base/">Back to the index</a></p>
 </header>
 {footer()}"""
-    return page("Not found &middot; knowledge base", body)
+    return page("Not found · knowledge base", body)
 
 
 def check_links():
