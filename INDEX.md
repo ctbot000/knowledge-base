@@ -151,9 +151,6 @@ strict and this repository is public.
 - [A response driven only by a lagged measurement moves the wrong way at the start of a step](entries/practices/lagged-measurement-inverts-the-transient.md) — Both lags are individually correct and the steady state is right; only the transient inverts, and it is blamed on whatever it shows up in. `control`, `simulation`, `modelling`
 - [A protection threshold read from an instantaneous measurement fires on the transient the system exists to produce](entries/practices/protection-threshold-needs-filtering.md) — Peak demand and the failure condition move the same signal, so the cutoff trips at full throttle on a healthy system; separate them in frequency, not by value. `control`, `monitoring`, `reliability`
 
-## systems
-
-_No entries yet._
 - [An entity that acts on its own schedule also acts while a test is staging the scene](entries/practices/autonomous-actors-act-during-test-setup.md) — The action under test is counted alongside the ones the entity took by itself, so an exact-count assertion fails and a lower-bound one passes for the wrong reason. `testing`, `simulation`, `game-design`
 - [A placement bot scored on total coverage stacks every unit on one spot and measures itself](entries/practices/marginal-coverage-scores-the-level.md) — The score does not change as units are placed, so coverage read 43% instead of 99% and the level got blamed; weight each threat point by how well it is already covered. `game-design`, `testing`, `simulation`
 - [A difficulty curve is not monotonic in any single resource, so a test must assert the trend](entries/practices/difficulty-is-not-monotonic-in-one-resource.md) — A level that trades health for a new threat reads as a dip and the invariant fails on exactly the content worth protecting; compare across the design's own cycle length. `game-design`, `testing`, `level-design`
@@ -161,6 +158,14 @@ _No entries yet._
 - [A pointer gesture is completed by the element it started on, not by the one under the release](entries/practices/gesture-completion-belongs-to-its-press.md) — Listening for pointerup on window and then testing e.target discards every real click while drag keeps working, so it reads as a dead action. `dom`, `events`, `pointer-events`
 - [In a 3D scene, assert that every interactive cell round-trips from its own pixel back to itself](entries/practices/pick-round-trip-proves-the-3d-contract.md) — Clicking and looking passes near top-down and fails once the camera is orbited; keep the projection maths out of the GPU so the sweep runs headlessly. `3d`, `testing`, `input`
 - [A radial kernel sized in pixels is an ellipse in grid terms whenever the cells are not square](entries/practices/radial-kernel-on-a-non-square-grid.md) — No single pixel sigma is round in cells, so the blob starves along one axis and the low count reads as a bad threshold. `graphics`, `canvas`, `layout`
+- [HTMLImageElement.decode() never settles on a page that is not being painted](entries/practices/image-decode-waits-for-a-paint.md) — `complete` and `naturalWidth` say the image is there and the promise stays pending for ever, so an await returns nothing and throws nothing. `browser`, `dom`, `async`
+- [Canvas blend modes do per-channel set arithmetic, so several soft masks fit in one RGBA upload](entries/practices/canvas-composites-do-channel-arithmetic.md) — `lighter` adds a region into one channel and `multiply` by `rgb(0,255,255)` subtracts it from red alone; blurred fills make the edges feather. `canvas`, `graphics`, `frontend`
+- [The textbook local image warp folds near its own rim, and worst at small displacements](entries/practices/warp-falloff-must-be-flat-at-the-rim.md) — Gustafsson's falloff is non-monotonic below ~0.55r and creases each handle; one flat at the rim holds to 2r/3. `graphics`, `geometry`, `image-processing`
+- [A filter radius fixed in pixels is calibrated to one subject size, not to the image](entries/practices/filter-radius-follows-subject-scale.md) — The same blur erases a distant face and barely touches a near one, which reads as a badly tuned slider; derive it from a measured feature. `graphics`, `image-processing`, `computer-vision`
+
+## systems
+
+_No entries yet._
 
 ## tools
 
