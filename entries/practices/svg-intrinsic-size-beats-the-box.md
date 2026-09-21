@@ -2,6 +2,7 @@
 title: An inline SVG sizes itself from its viewBox unless both axes are definite
 tags: [css, svg, layout, frontend]
 added: 2026-08-30
+updated: 2026-09-21
 sources:
   - https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element
   - https://www.w3.org/TR/CSS21/visudet.html#abs-replaced-width
@@ -18,6 +19,10 @@ Two places this bites:
 - **A `1fr` track is `minmax(auto, 1fr)`.** The auto minimum is the item's
   min-content size, which the SVG derives from its ratio, so a grid of square
   cells silently stretches to the tallest bottle-shaped child.
+- **A centred grid item sits in an `auto` row.** `display:grid; place-items:center`
+  on a box with an explicit height still creates an *implicit* row sized by its
+  content, so a child's `height:100%` has no definite basis and the ratio decides.
+  The parent's height looks definite and is not the one being resolved against.
 - **Insets do not size a replaced element.** With `position:absolute`, all four
   offsets set and `width`/`height` auto, the width comes from `left`/`right`,
   the height comes from the ratio, and `bottom` is simply ignored — the element
@@ -34,6 +39,8 @@ content: one oddly-proportioned icon widens every track in the grid.
 
 - Write grid tracks as `repeat(n, minmax(0, 1fr))` whenever a cell holds
   anything with an intrinsic ratio.
+- Prefer a plain block parent with a definite height over centring tricks, or
+  write the track out: `grid-template-rows: minmax(0, 1fr)`.
 - Give the SVG a definite box on both axes rather than trusting insets:
   `width:calc(100% - 6px); height:calc(100% - 14px)`, or wrap it in a
   non-replaced element that the insets can size and let the SVG fill that.
