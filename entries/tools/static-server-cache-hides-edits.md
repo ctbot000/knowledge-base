@@ -2,6 +2,7 @@
 title: A cache-busting query on a page does not bust the CSS and JS it links
 tags: [web, caching, static-sites]
 added: 2026-09-07
+updated: 2026-09-22
 sources:
   - https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching
 ---
@@ -39,3 +40,6 @@ reports on behaviour that no longer exists in the working tree.
 - Version the subresource URLs, not the document, when a query string is the
   only lever available.
 - A hard reload fixes it once; it does not fix the next edit, so fix the headers.
+- `localhost` and `127.0.0.1` are different origins with different caches, so
+  switching between them serves the same files past an already-poisoned cache —
+  useful when the tooling driving the browser offers no hard reload.
