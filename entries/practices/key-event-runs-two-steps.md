@@ -2,7 +2,7 @@
 title: One key press runs two steps when a bubbling handler reads state an inner handler just changed
 tags: [dom, events, keyboard, frontend]
 added: 2026-08-27
-updated: 2026-09-06
+updated: 2026-09-22
 ---
 
 ## Fact
@@ -42,6 +42,13 @@ which makes it a durable accessibility bug rather than an obvious crash.
   so a design leaning on native activation behaves one way for people and another
   under automation. Returning early when the target is the button also works,
   but only for real presses.
+- A form's *implicit submission* — Enter in a text field, with no button focused
+  at all — is one of these default actions, and it is what an ordinary
+  Enter-to-submit design rests on. So the `submit` handler that works for a
+  person never runs under a dispatched `keydown`, and the feature reads as
+  broken in automation while being fine in the browser. Handling Enter in an
+  explicit `keydown` listener that calls `preventDefault()` fixes both halves at
+  once: exactly one submission, and a path a synthetic event can reach.
 - Prefer capturing "which step is this key for" from the event's target rather
   than from mutable app state, when one global handler serves several steps.
 - The same trap applies to click delegation, and to any state machine advanced
