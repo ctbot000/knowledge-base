@@ -178,6 +178,7 @@ strict and this repository is public.
 - [The textbook local image warp folds near its own rim, and worst at small displacements](entries/practices/warp-falloff-must-be-flat-at-the-rim.md) — Gustafsson's falloff is non-monotonic below ~0.55r and creases each handle; one flat at the rim holds to 2r/3. `graphics`, `geometry`, `image-processing`
 - [A filter radius fixed in pixels is calibrated to one subject size, not to the image](entries/practices/filter-radius-follows-subject-scale.md) — The same blur erases a distant face and barely touches a near one, which reads as a badly tuned slider; derive it from a measured feature. `graphics`, `image-processing`, `computer-vision`
 - [A gitignore pattern with no slash matches at every depth, so it can swallow a source directory](entries/practices/gitignore-bare-directory-matches-any-depth.md) — `target/` for Maven output also ignores a Java package named target; the commit succeeds and CI is the first to notice. `git`, `gitignore`, `java`
+- [<center> computes to text-align: -webkit-center, which tables reset](entries/practices/center-computes-to-webkit-center.md) — It centres block children too, and stops at a table, so implementing either half alone mis-renders every page wrapped in one. `css`, `html`, `layout`
 
 ## systems
 
@@ -225,3 +226,4 @@ _No entries yet._
 
 - [element.click() proves the handler runs, not that anything can reach the control](entries/tools/element-click-does-not-hit-test.md) — It never hit-tests, so a suite driving a covered or pointer-events-disabled control passes while the feature is dead for everyone. `testing`, `automation`, `dom`
 - [javac rejects an unknown -Xlint key outright, so lint flags are not portable across JDKs](entries/tools/xlint-unknown-key-is-an-error.md) — `-this-escape` is JDK 21+, so one hard-coded lint string kills every older-JDK job in the matrix before a line of source is read. `java`, `javac`, `ci`
+- [On macOS, Tk's update() never returns when called outside mainloop()](entries/tools/tk-update-blocks-outside-mainloop-on-macos.md) — A headless GUI test hangs with no traceback; `update_idletasks()` and `mainloop()` plus `after()` both work. `tkinter`, `testing`, `macos`
