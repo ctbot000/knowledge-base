@@ -17,6 +17,7 @@ strict and this repository is public.
 - [Node's strict assertions fail -0 against 0](entries/languages/assert-strict-rejects-negative-zero.md) — `Object.is` separates them, so a `-0` out of a sign flip *or* any multiply or divide that lands on zero fails a check that `===` would pass — `deepEqual` included. `javascript`, `testing`, `numerics`
 - [asyncio's Server.wait_closed() waits for live connections, not just the listener](entries/languages/asyncio-wait-closed-waits-for-connections.md) — Since Python 3.12 it blocks until every handler ends, so awaiting it before telling clients to leave deadlocks. `python`, `asyncio`, `shutdown`
 - [Math.max cannot floor a NaN, so a clamped loop bound can still run zero times](entries/languages/math-max-cannot-floor-nan.md) — `Math.max(1, NaN)` is NaN, so the loop runs zero times while the `!== 0` liveness test keeps reporting the entity as moving. `javascript`, `numerics`, `simulation`
+- [An inherited member type shadows a single-type import of the same name](entries/languages/inherited-nested-type-beats-import.md) — The compiler then reports the imported class's own methods as missing, and only the classes implementing that interface are affected. `java`, `scoping`, `imports`
 
 ## practices
 
@@ -172,6 +173,7 @@ strict and this repository is public.
 - [Canvas blend modes do per-channel set arithmetic, so several soft masks fit in one RGBA upload](entries/practices/canvas-composites-do-channel-arithmetic.md) — `lighter` adds a region into one channel and `multiply` by `rgb(0,255,255)` subtracts it from red alone; blurred fills make the edges feather. `canvas`, `graphics`, `frontend`
 - [The textbook local image warp folds near its own rim, and worst at small displacements](entries/practices/warp-falloff-must-be-flat-at-the-rim.md) — Gustafsson's falloff is non-monotonic below ~0.55r and creases each handle; one flat at the rim holds to 2r/3. `graphics`, `geometry`, `image-processing`
 - [A filter radius fixed in pixels is calibrated to one subject size, not to the image](entries/practices/filter-radius-follows-subject-scale.md) — The same blur erases a distant face and barely touches a near one, which reads as a badly tuned slider; derive it from a measured feature. `graphics`, `image-processing`, `computer-vision`
+- [A gitignore pattern with no slash matches at every depth, so it can swallow a source directory](entries/practices/gitignore-bare-directory-matches-any-depth.md) — `target/` for Maven output also ignores a Java package named target; the commit succeeds and CI is the first to notice. `git`, `gitignore`, `java`
 
 ## systems
 
@@ -218,3 +220,4 @@ _No entries yet._
 - [A positional argument to `node --test` is a glob pattern, never a directory to search](entries/tools/node-test-positionals-are-globs.md) — `node --test tests/` dies in the module loader on Node 26 and a quoted glob fails on Node 20; bare `node --test` is the portable form. `node`, `testing`, `ci`
 
 - [element.click() proves the handler runs, not that anything can reach the control](entries/tools/element-click-does-not-hit-test.md) — It never hit-tests, so a suite driving a covered or pointer-events-disabled control passes while the feature is dead for everyone. `testing`, `automation`, `dom`
+- [javac rejects an unknown -Xlint key outright, so lint flags are not portable across JDKs](entries/tools/xlint-unknown-key-is-an-error.md) — `-this-escape` is JDK 21+, so one hard-coded lint string kills every older-JDK job in the matrix before a line of source is read. `java`, `javac`, `ci`
