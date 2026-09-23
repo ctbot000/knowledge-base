@@ -179,6 +179,7 @@ strict and this repository is public.
 - [A filter radius fixed in pixels is calibrated to one subject size, not to the image](entries/practices/filter-radius-follows-subject-scale.md) — The same blur erases a distant face and barely touches a near one, which reads as a badly tuned slider; derive it from a measured feature. `graphics`, `image-processing`, `computer-vision`
 - [A gitignore pattern with no slash matches at every depth, so it can swallow a source directory](entries/practices/gitignore-bare-directory-matches-any-depth.md) — `target/` for Maven output also ignores a Java package named target; the commit succeeds and CI is the first to notice. `git`, `gitignore`, `java`
 - [<center> computes to text-align: -webkit-center, which tables reset](entries/practices/center-computes-to-webkit-center.md) — It centres block children too, and stops at a table, so implementing either half alone mis-renders every page wrapped in one. `css`, `html`, `layout`
+- [An unquoted URL with `?` fails in zsh before the command runs, though bash passes it through](entries/practices/unquoted-url-fails-in-zsh.md) — `no matches found` means the program never ran; docs tested in bash or Oh My Zsh break for plain zsh, and `&` splits the command in every shell. Quote URLs in examples. `shell`, `zsh`, `cli`
 
 ## systems
 
