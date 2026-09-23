@@ -2,9 +2,9 @@
 """Build the browsable site for this knowledge base into _site/.
 
 The Markdown under entries/ is the source of truth and the only thing a human
-writes. This reads every entry, takes its one-line summary from INDEX.md, and
-writes a static site: one page per entry, plus an index that filters by topic,
-tag and free text.
+writes. This reads every entry, takes its one-line summary from its topic index,
+and writes a static site: one page per entry, plus an index that filters by
+topic, tag and free text.
 
 Nothing it writes is committed — a workflow runs it on every push and hands
 _site/ straight to GitHub Pages. Run it locally the same way:
@@ -15,6 +15,7 @@ _site/ straight to GitHub Pages. Run it locally the same way:
 import html
 import os
 import pathlib
+import posixpath
 import re
 import shutil
 import sys
@@ -309,18 +310,33 @@ def first_sentence(body):
 
 
 def read_index():
-    """Summaries, topic order and entry order, taken from the index an agent
-    actually reads. The curated order is the one worth showing."""
+    """Summaries, topic order and entry order, taken from the indexes an agent
+    actually reads: INDEX.md links the topic indexes, and each of those lists its
+    entries relative to itself. The curated order is the one worth showing."""
     summaries, topics, order = {}, [], []
-    for line in (ROOT / "INDEX.md").read_text(encoding="utf-8").splitlines():
-        h = re.match(r"^##\s+(.+?)\s*$", line)
-        if h:
-            topics.append(h.group(1))
+    toc = (ROOT / "INDEX.md").read_text(encoding="utf-8")
+    indexes = list(dict.fromkeys(re.findall(r"\]\((entries/[^/)\s]+/INDEX[^/)\s]*\.md)\)", toc)))
+    for index in indexes:
+        path = ROOT / index
+        if not path.exists():
+            warn(f"{index} is linked from INDEX.md but missing on disk", file="INDEX.md")
             continue
-        m = re.match(r"^-\s+\[.+?\]\((entries/[^)]+)\)\s+—\s+(.*?)\s*$", line)
-        if m:
-            summaries[m.group(1)] = re.sub(r"\s*(?:`[\w.+-]+`,?\s*)+$", "", m.group(2))
-            order.append(m.group(1))
+        if path.parent.name not in topics:
+            topics.append(path.parent.name)
+        for line in path.read_text(encoding="utf-8").splitlines():
+            m = re.match(r"^-\s+\[.+?\]\(([^)\s]+)\)\s+—\s+(.*?)\s*$", line)
+            if not m:
+                continue
+            rel = posixpath.normpath(posixpath.join(posixpath.dirname(index), m.group(1)))
+            if rel in summaries:
+                warn(f"{rel} is listed more than once", file=index)
+                continue
+            summaries[rel] = re.sub(r"\s*(?:`[\w.+-]+`,?\s*)+$", "", m.group(2))
+            order.append(rel)
+    for path in sorted(ROOT.glob("entries/*/INDEX*.md")):
+        rel = path.relative_to(ROOT).as_posix()
+        if rel not in indexes:
+            warn(f"{rel} is not linked from INDEX.md", file=rel)
     return summaries, topics, order
 
 
@@ -330,6 +346,8 @@ def load_entries():
 
     entries = []
     for path in sorted(ROOT.glob("entries/*/*.md")):
+        if path.name.startswith("INDEX"):
+            continue  # a topic index, not an entry
         rel = path.relative_to(ROOT).as_posix()
         meta, body = parse_entry(path)
         entries.append({
@@ -348,8 +366,8 @@ def load_entries():
 
     orphans = [e["src"] for e in entries if e["src"] not in rank]
     dangling = [p for p in entry_order if not (ROOT / p).exists()]
-    for label, paths in (("is not listed in INDEX.md", orphans),
-                         ("is listed in INDEX.md but missing on disk", dangling)):
+    for label, paths in (("is not listed in any topic index", orphans),
+                         ("is listed in a topic index but missing on disk", dangling)):
         for path in paths:
             warn(f"{path} {label}", file=path)
 

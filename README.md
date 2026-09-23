@@ -13,21 +13,23 @@ push; nothing generated is committed.
 
 ## How it is used
 
-An agent reads [INDEX.md](INDEX.md) at the start of a session. The index is one
-line per entry, so scanning it is cheap. The agent then opens only the entries
+An agent reads [INDEX.md](INDEX.md) at the start of a session: a table of
+contents with one line per topic index. It opens the topic indexes that fit the
+task — one line per entry, so scanning them is cheap — and then only the entries
 whose summary is relevant to the task at hand.
 
-When the agent learns something durable and general, it adds an entry, updates
-the index, and pushes.
+When the agent learns something durable and general, it adds an entry, adds its
+line to the topic index, and pushes.
 
 ## Layout
 
 ```
-INDEX.md            one line per entry — the retrieval surface
+INDEX.md            table of contents — one line per topic index
 CONVENTIONS.md      what belongs here, what does not, and how to write an entry
 CLAUDE.md           operating instructions for an agent working in this repo
 generate.py         builds the published site from the Markdown below
 entries/
+  <topic>/INDEX*.md one line per entry — the retrieval surface
   languages/        language-level behavior, semantics, idioms
   tools/            build tools, version control, CLIs, editors
   practices/        testing, review, design, process

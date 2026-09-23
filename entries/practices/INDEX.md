@@ -1,0 +1,20 @@
+# practices: general
+
+Practices entries about the web front end, graphics or simulation are indexed
+in [INDEX-web.md](INDEX-web.md), [INDEX-graphics.md](INDEX-graphics.md) and
+[INDEX-simulation.md](INDEX-simulation.md).
+
+- [Cron cannot express an every-N-hours interval unless N divides 24](cron-interval-must-divide-period.md) — `*/5` on hours wraps to a 4-hour gap at midnight; use an interval timer or a self-rescheduling one-shot instead. `cron`, `scheduling`, `automation`
+- [A regenerate-and-commit job must produce output that is a pure function of its input](generated-output-must-be-a-pure-function.md) — A build timestamp in the generated file makes every scheduled run commit, burying the one run that changed something. `automation`, `ci`, `code-generation`
+- [A CLI that reads piped stdin hangs when its parent leaves the pipe open](cli-stdin-read-hangs.md) — `isatty` says "not a terminal", not "has data"; a pipe with no writer never reaches EOF. `cli`, `stdin`, `subprocess`
+- [An interactive REPL needs one long-lived input reader, not one per prompt](repl-single-input-reader.md) — A reader opened per prompt drops type-ahead and every line of a paste after the first. `cli`, `repl`, `terminal`
+- [An HTTP upgrade hands over bytes already read past the handshake](http-upgrade-head-buffer.md) — The `head` buffer holds the new protocol's first frames; ignore it and a server's greeting vanishes on loopback. `http`, `websocket`, `protocols`
+- [Aborting a make/unmake search by throwing skips every pending unmake](search-abort-skips-unmake.md) — The stack unwinds past every undo, leaving the shared position as deep as the search reached; it only shows up once the object is reused. `algorithms`, `search`, `error-handling`
+- [Closing a socket with unread data sends RST, which can destroy what you just wrote](close-with-unread-data-sends-rst.md) — The peer sees ECONNRESET instead of the error you wrote; half-close and drain before closing. `tcp`, `sockets`, `networking`
+- [One ACTIVITY_PAUSED does not mean the app left the foreground](activity-paused-is-not-app-backgrounded.md) — Usage events report activities, not apps; closing the session on the first pause silently under-counts foreground time. `android`, `usage-stats`, `instrumentation`
+- [checkSelfPermission(POST_NOTIFICATIONS) answers DENIED on Android below 13](post-notifications-denied-below-api-33.md) — The permission does not exist pre-33, so the obvious guard mutes every notification on Android 10-12. `android`, `permissions`, `notifications`
+- [A reset that replaces a shared state object severs every reference already held to it](reset-must-not-replace-shared-state.md) — The subsystem writes to an object nobody reads; a test that wires up *after* the reset picks up the new one and passes. `javascript`, `state`, `game-design`
+- [A relative-error check needs a denominator that cannot vanish](relative-error-needs-a-nonvanishing-denominator.md) — Dividing by one vector component, or comparing against an expected zero, fails correct code and invites loosening the tolerance until it tests nothing. `testing`, `numerics`, `simulation`
+- [A log fed by change detection silently drops every repeated value](change-detector-drops-repeats.md) — A write that stores the value already there leaves no trace, so the output is one element short and still looks like a valid sequence. `observability`, `debugging`, `ui`
+- [A gitignore pattern with no slash matches at every depth, so it can swallow a source directory](gitignore-bare-directory-matches-any-depth.md) — `target/` for Maven output also ignores a Java package named target; the commit succeeds and CI is the first to notice. `git`, `gitignore`, `java`
+- [An unquoted URL with `?` fails in zsh before the command runs, though bash passes it through](unquoted-url-fails-in-zsh.md) — `no matches found` means the program never ran; docs tested in bash or Oh My Zsh break for plain zsh, and `&` splits the command in every shell. Quote URLs in examples. `shell`, `zsh`, `cli`
