@@ -2,6 +2,7 @@
 title: A local server standing in for real domains in Chrome tests must also speak HTTPS
 tags: [testing, browser, https]
 added: 2026-09-23
+updated: 2026-09-28
 sources:
   - https://hstspreload.org/
 ---
@@ -34,3 +35,7 @@ green while checking nothing.
 - Map the port too, `MAP * 127.0.0.1:<port>`, so URLs carry no port and
   patterns like `||host/path` match as they would in production.
 - Pair every "was not requested" assertion with a run where it must arrive.
+- Pages loaded this way still count as secure contexts: `isSecureContext` is
+  true despite the certificate error, so `crypto.subtle` and other
+  HTTPS-only APIs work. That makes the same setup the way to run such an app
+  under a production-like hostname instead of `localhost`.
