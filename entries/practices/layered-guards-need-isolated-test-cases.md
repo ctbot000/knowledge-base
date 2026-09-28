@@ -2,6 +2,7 @@
 title: A test of layered guards still passes with one guard deleted unless some case trips only that guard
 tags: [testing, security, mutation-testing]
 added: 2026-09-24
+updated: 2026-09-28
 ---
 
 ## Fact
@@ -25,6 +26,10 @@ failing test.
   a loopback check.
 - Check the suite by mutation: comment out one guard at a time and confirm a
   test fails. A guard whose removal nothing notices has no test.
+- Look beyond request checks. In a job whose steps run in order, an earlier
+  step can hide a later one's filter: delete revoked sessions first, and the
+  purge that skips revoked sessions never meets one. Call the later step on
+  its own in a test.
 - Watch the defaults of test fixtures. Go's `httptest.NewRequest` comes from
   `192.0.2.1:1234` with `Host: example.com`, so a loopback-only handler rejects
   it before the check you meant to exercise; set `RemoteAddr` and `Host` on
