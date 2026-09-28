@@ -2,6 +2,7 @@
 title: node --test waits forever for a hung test, and --test-timeout alone does not end the run
 tags: [node, testing, ci]
 added: 2026-09-28
+updated: 2026-09-28
 sources:
   - https://nodejs.org/api/cli.html#--test-timeout
   - https://nodejs.org/api/cli.html#--test-force-exit
@@ -31,6 +32,7 @@ testing hit this constantly.
   discovery. They need Node 20.14+ (force-exit) and 20.11+ (timeout).
 - Bound teardown too: `server.close()` waits for the hung connection. Call
   `server.closeAllConnections()` in `after`, or force it after a short grace.
+  It does not reach WebSockets: [[close-all-connections-skips-upgraded-sockets]].
 - A hang in every test of a file costs the timeout once per test. Keep the
   timeout close to the slowest real test, not generous.
 - When a CI check parses the summary, treat `cancelled > 0` as a failure.
