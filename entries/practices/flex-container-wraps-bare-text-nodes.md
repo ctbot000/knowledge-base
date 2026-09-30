@@ -1,7 +1,8 @@
 ---
-title: A bare text node in a flex container becomes its own flex item
+title: Bare text in a flex container becomes an anonymous flex item, one per contiguous run of text
 tags: [css, flexbox, layout, frontend]
 added: 2026-09-02
+updated: 2026-09-30
 sources:
   - https://www.w3.org/TR/css-flexbox-1/#flex-items
 ---
@@ -24,6 +25,9 @@ direction puts each on its own row. The `<span>` being `display: inline` changes
 nothing — that property describes how a box participates in inline layout, and
 inside a flex container it is blockified and never gets the chance.
 
+The unit is the contiguous run, not the text node: `el.append('🌾', 'Plainsfolk')`
+makes two adjacent text nodes but one item, so `gap` never separates them.
+
 ## Why it matters
 
 The markup looks like ordinary inline content, so the split reads as a wrapping
@@ -37,8 +41,8 @@ markup suggests.
 
 - Wrap the text in an element so the pair is one item:
   `<span class="lbl">Focus <span class="unit">min</span></span>`.
+- Conversely, an icon and its label need two elements, not two strings, for `gap` to apply.
 - Treat "every child of a flex or grid container is an item, including bare
   text" as the rule when counting items for `gap` or `nth-child`.
 - The same anonymous-item rule applies to grid containers.
-- Whitespace-only text between elements is not wrapped, so ordinary formatting
-  newlines in the markup do not create phantom items.
+- Whitespace-only text between elements is not wrapped, so formatting newlines add no items.
