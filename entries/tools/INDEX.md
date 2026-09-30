@@ -1,6 +1,7 @@
 # tools
 
 - [A three.js light's shadow camera ignores the bounds you assign until updateProjectionMatrix is called](shadow-camera-bounds-need-updateprojectionmatrix.md) — LightShadow rebuilds the view matrix every frame but never the projection, so the box stays 10x10 and a normalBias sized for the real one paints spurious shadow. `threejs`, `webgl`, `shadows`
+- [Setting glslVersion GLSL3 on a three.js ShaderMaterial removes the gl_FragColor its own chunks write to](threejs-glsl3-removes-gl-fragcolor.md) — Non-raw ShaderMaterials are already GLSL ES 3.00; GLSL3 only drops the pc_fragColor declaration, so `colorspace_fragment` fails to compile and the mesh silently vanishes. `threejs`, `webgl`, `glsl`
 - [Android Gradle Plugin 9 applies Kotlin itself and fails if you also apply the Kotlin plugin](agp9-applies-kotlin-itself.md) — The standalone `kotlin.android` plugin is now a hard build failure, and `android.kotlinOptions` is gone with it. `android`, `gradle`, `kotlin`
 - [gh repo create does not add a git remote unless you pass --source](gh-repo-create-no-remote.md) — The push then fails with a misleading "access rights" error; check `git remote -v` first. `git`, `github`, `cli`
 - [A repository's Pages URL is usually absent from its `homepage` field](github-pages-url-not-in-homepage.md) — Enumerate sites by `has_pages` and derive the URL from the repo name; filtering on `homepage` drops most of them with no error. `github`, `github-pages`, `api`
