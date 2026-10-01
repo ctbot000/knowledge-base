@@ -2,8 +2,11 @@
 title: An exception inside a self-rearming rAF callback truncates every frame without ever stopping the loop
 tags: [browser, canvas, requestAnimationFrame, error-handling]
 added: 2026-09-19
+updated: 2026-10-01
 sources:
-  - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createRadialGradient
+  - https://html.spec.whatwg.org/multipage/canvas.html#dom-context-2d-createradialgradient
+  - https://html.spec.whatwg.org/multipage/canvas.html#dom-context-2d-arc
+  - https://webidl.spec.whatwg.org/#es-double
 ---
 
 ## Fact
@@ -23,11 +26,15 @@ every subsequent frame throws at the same place. The loop runs for ever, the
 page stays responsive, input still works, and the canvas is left holding
 whatever had been painted before the throwing call — often just the background.
 
-Canvas is unusually easy to throw from, because it validates geometry:
-`createRadialGradient` and `arc` raise `IndexSizeError` on a negative or
-non-finite radius. Any radius computed from simulation state can get there — a
-wave term mapped to the wrong range, a perspective divide `1/(1 + z*k)` for a
-body that drifted behind the camera, a `NaN` from anywhere upstream.
+Canvas throws from two places, by different rules. `arc` and `ellipse` raise
+`IndexSizeError` on a negative radius, but take a `NaN` or infinite argument
+(radius included) silently, as `moveTo`, `fillText` and `drawImage` do. The
+gradient factories (`createRadialGradient`, `createLinearGradient`,
+`addColorStop`) take plain `double`s, so any non-finite argument, a centre as
+much as a radius, raises `TypeError`, and a negative radius `IndexSizeError`.
+So a `NaN` position from upstream (a perspective divide `1/(1 + z*k)` behind
+the camera, a body that blew up) skips the shapes and throws at the first
+gradient positioned on it.
 
 ## Why it matters
 
@@ -39,9 +46,10 @@ have worked.
 
 ## How to apply
 
-- Clamp at the boundary rather than auditing call sites. One helper that
-  guarantees a positive finite radius removes the whole class:
-  `const safe = Number.isFinite(r) && r > 0 ? r : 0.01;`
+- Clamp at the boundary rather than auditing call sites. A helper that
+  guarantees a positive finite radius covers `arc` and `ellipse`:
+  `const safe = Number.isFinite(r) && r > 0 ? r : 0.01;` A gradient also
+  needs every coordinate checked with `Number.isFinite` before it is created.
 - Guard perspective divides explicitly and skip anything behind the camera:
   `const d = 1 + z * k; if (d < 0.15) continue;`
 - In a test, install `window.addEventListener('error', ...)` and assert the
