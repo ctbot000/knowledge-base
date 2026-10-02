@@ -2,6 +2,7 @@
 title: Restyling a base class in a later media query also beats its modifier classes there
 tags: [css, cascade, responsive]
 added: 2026-10-02
+updated: 2026-10-02
 sources:
   - https://www.w3.org/TR/css-cascade-4/#cascade-sort
   - https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity
@@ -32,6 +33,9 @@ search starts in the arithmetic, which is correct.
   (`width: var(--size)`) that modifiers and breakpoints set, instead of each
   rule setting `width` itself.
 - Or raise the modifier to `.btn.btn-lg`, so that it outranks the base
-  everywhere.
+  everywhere. That moves the tie one level down: a sub-modifier such as
+  `.btn-lg.wide`, which beat `.btn-lg` by source order, now ties with any
+  breakpoint rule for `.btn.btn-lg` placed after it and loses there. Raise
+  it as well (`.btn.btn-lg.wide`).
 - Check the computed size of a modified element at each breakpoint, not only
   the property it is meant to follow.
