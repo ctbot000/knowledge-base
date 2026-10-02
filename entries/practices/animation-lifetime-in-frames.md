@@ -2,6 +2,7 @@
 title: An animation lifetime counted in frames never expires while rAF is throttled
 tags: [animation, browser, requestAnimationFrame, frontend]
 added: 2026-08-29
+updated: 2026-10-02
 sources:
   - https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame
 ---
@@ -33,6 +34,10 @@ and appears only for users who switch away mid-animation.
 
 - End effects on wall-clock time, not frame count:
   `b.die = performance.now() + 2200`, retired with `now >= b.die`.
+- But not something that must be seen, such as a speech bubble: only a frame
+  draws it, and a frame later than its lifetime retires it before it ever
+  appears. Count those down by the clamped elapsed time below instead
+  (`left -= dt`), which cannot run out undrawn.
 - Scale every per-frame increment by elapsed time, clamped so a long stall does
   not teleport anything: `const dt = Math.min(3, (now - last) / 16.67) || 1`.
 - Reset the `last` timestamp when restarting an idle loop, or the first frame
