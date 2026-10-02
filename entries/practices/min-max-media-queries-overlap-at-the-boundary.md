@@ -2,9 +2,11 @@
 title: A min- and a max- media query on the same value both match at that value, so opposite breakpoints overlap at one exact size
 tags: [css, responsive, media-queries]
 added: 2026-10-02
+updated: 2026-10-02
 sources:
   - https://www.w3.org/TR/mediaqueries-4/#mq-min-max
   - https://www.w3.org/TR/mediaqueries-4/#mq-range-context
+  - https://www.w3.org/TR/mediaqueries-4/#mq-not
 ---
 
 ## Fact
@@ -29,6 +31,11 @@ bar for no reason, on those sizes only.
 - Make one side strict: range syntax `(aspect-ratio > 3/4)` or `(width > 760px)`
   (Media Queries 4: Chrome 104+, Safari 16.4+, Firefox 63+), or
   `not all and (max-aspect-ratio: 3/4)` where older engines matter.
+- That leading `not` negates the whole query, so `not all and
+  (max-aspect-ratio: 3/4) and (max-width: 760px)` means "not narrow and
+  upright" and matches wide upright screens too. Nest the narrower `@media`
+  inside it, or pick bounds that imply the side: `(min-width: 538px)` with
+  `(max-height: 687px)` is already wider than 3:4.
 - A width can also be nudged (`min-width: 760.02px`); a ratio cannot.
 - Put the boundary itself in every viewport sweep (768×1024 for 3/4), since
   sizes either side of it pass.
