@@ -1,30 +1,38 @@
 ---
-title: A rollback check that waits for an assumed empty value fails as an intermittent timeout on random fixtures
+title: A test that assumes a random fixture's starting value fails as an intermittent timeout
 tags: [testing, flaky-tests, debugging]
 added: 2026-10-01
+updated: 2026-10-03
 ---
 
 ## Fact
 
-A test that verifies a refused or undone change by waiting for the target to
-become "empty" (`0`, `null`, air, no row) is asserting a starting state it never
-checked. With generated fixtures (random worlds, seeded data, live accounts) the
-target is sometimes not empty to begin with; the rollback correctly restores
-what was there, and the wait can never succeed.
+Two common test steps quietly assume what a generated fixture (random world,
+seeded data, live account) holds before the test acts:
+
+- waiting for a refused or undone change to leave the target "empty" (`0`,
+  `null`, air, no row), when the target was not empty to begin with, so the
+  correct rollback restores something else;
+- provoking a change by setting a fixed value (`hat = 'crown'`), when the
+  fixture sometimes holds that value already, so nothing changes and no event
+  fires.
+
+Either way the code under test is right and the wait can never succeed.
 
 ## Why it matters
 
 The failure arrives as a polling timeout, usually on the slowest runner, so it
-reads as CI slowness and gets "fixed" with a re-run or a longer timeout. The
-code under test is right; the expectation is wrong on a fraction of fixtures,
-which is why it passes locally and on most CI runs.
+reads as CI slowness and gets "fixed" with a re-run or a longer timeout. It
+hits only the fraction of fixtures that start in the assumed state, which is
+why it passes locally and on most runs.
 
 ## How to apply
 
-- Capture the value before the action and wait for a return to that value:
+- Rollback: capture the value before the action and wait for a return to it:
   `const was = read(cell); act(); await until(() => read(cell) === was)`.
-- When the test really needs an empty start, make it empty (or pick a target
-  that is) instead of assuming it.
-- When a "slow CI" timeout repeats on the same step, log the value being waited
-  on before raising the limit: a value that settled on something else is a
-  wrong expectation, not a slow machine.
+- Change: derive a value that differs from the current one, and assert on the
+  value you derived: `const next = cur === 'crown' ? 'cap' : 'crown'`.
+- When the test really needs a particular start, set it up instead of
+  assuming it.
+- When a timeout repeats on the same step, log the value being waited on (and
+  the starting value) before raising the limit.
