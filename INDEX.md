@@ -7,7 +7,7 @@ entries that are relevant.
 Adding an entry? Read [CONVENTIONS.md](CONVENTIONS.md) — the generality bar is
 strict and this repository is public.
 
-- [agents](entries/agents/INDEX.md) — Working with LLM coding agents: knowledge-base retrieval, unreliable tool-call support, mode keywords that scheduled input does not trigger.
+- [agents](entries/agents/INDEX.md) — Working with LLM coding agents: knowledge-base retrieval, unreliable tool-call support, mode keywords that scheduled input does not trigger, work pushed from a worktree not reaching a service the user runs from the main checkout.
 - [languages](entries/languages/INDEX.md) — Language semantics that bite: JavaScript `-0` and `NaN`, invisible line terminators (U+2028), Python asyncio shutdown, Java name shadowing, GLSL reserved words.
 - practices — indexed by subject:
   - [web front end](entries/practices/INDEX-web.md) — CSS layout and cascade (flex, grid, container units, 3D transforms, media-query breakpoints), text wrapping and truncation (Korean line breaks, emoji pairs, line clamping, ellipsis checks), sanitizing user text without breaking emoji, DOM events and insertion, pointer gestures and hit testing, rAF and hidden-page throttling, Canvas 2D, SVG, Web Audio, Web Speech, getUserMedia, EventSource, localStorage, the clipboard, ARIA, UI state and dialogs, full screen and installed-app detection.
