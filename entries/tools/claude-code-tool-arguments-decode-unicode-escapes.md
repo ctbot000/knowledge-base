@@ -3,31 +3,38 @@ title: A \uXXXX escape in a Claude Code tool call reaches the tool as the raw ch
 tags: [claude-code, unicode, agents]
 added: 2026-10-04
 updated: 2026-10-04
+sources:
+  - https://github.com/anthropics/claude-code/issues/72957
+  - https://github.com/anthropics/claude-code/issues/99361
 ---
 
 ## Fact
 
-A `\uXXXX` (four hex digits) written in any tool call argument, Bash, Write and
-Edit alike, arrives at the tool already decoded: `printf '%s' 'x\u200dy'`
-prints a raw U+200D. Only that form is decoded, and only once: `\\` stays two
-backslashes and `\u{200d}` stays text. Edit adds a fallback on top: when
-`old_string` matches only after turning characters back into escapes, it does
-the same to `new_string`, so its Hangul and emoji land as `\u` escapes.
+Claude Code runs a repair pass over every tool call's input (Bash, Write, Edit
+and MCP alike) that decodes `\uXXXX` (four hex digits) into the character:
+`printf '%s' 'x\u200dy'` prints a raw U+200D. It decodes once, keeps
+`\\u200d`, lone surrogates, control characters and `\u{200d}` as
+typed, and skips a whole string that holds anything path-like: a drive letter
+(`C:\`) or a quote, two backslashes, text and a backslash, as in
+`"\\u200b";\n`. Edit then adds a fallback: when `old_string` matches only in
+escaped form, every non-ASCII character in `new_string` is written as an escape,
+Hangul and emoji included.
 
 ## Why it matters
 
-Source that names an invisible character by escape (a regex exempting
-zero-width joiners, a test feeding in a zero-width space) gets the invisible
-character itself, with every tool reporting success; later edits then fail to
-match it. Both forms run the same, so tests rarely notice.
+Source that names an invisible character by escape (a regex exempting joiners, a
+test feeding in a zero-width space) gets the invisible character itself, with
+every tool reporting success. Whether a given escape survives depends on
+unrelated text elsewhere in the same input, so a check that passed once proves
+nothing.
 
 ## How to apply
 
-- To write the six characters `\u200d`, escape the backslash itself:
-  `\u005cu200d` decodes once to `\u200d`.
-- Or keep four-digit escapes out of literals: `String.fromCharCode(0x200b)`,
-  `String.fromCodePoint(0x1f468, 0x200d, 0x1f469)`, the braced `\u{200d}` in
-  JavaScript, `\x{200d}` in Perl.
-- After any change involving escapes, check the bytes, not the rendered text:
-  `od -c` on the line, or
-  `perl -CSD -ne '$n++ while /[\x{200b}-\x{200f}]/g; END { print $n+0 }' file`.
+- Build such characters at run time instead: `String.fromCharCode(0x200b)`,
+  `String.fromCodePoint(0x1f468, 0x200d, 0x1f469)`, `\x{200d}` in Perl.
+- For escape text in a file, type a placeholder such as `@@BS@@` for each backslash and swap it in with a script
+  (`perl -pi -e 's/\@\@BS\@\@/\x5c/g'`); `\u005cu200b` gives `\u200b`
+  only while the pass runs.
+- Anchor an Edit on text without escapes, so the exact match wins.
+- Check the bytes after any such change: `od -c`, or count
+  `[\x{200b}-\x{200f}]` with `perl -CSD`.
