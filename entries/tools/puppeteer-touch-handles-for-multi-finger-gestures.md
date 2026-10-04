@@ -41,8 +41,6 @@ await one.end();
 ```
 
 Each `move()` is its own event, so one step of a pinch arrives as two
-pointermoves. Coordinates are rounded to whole pixels. Where the page lets the
-browser pan (no `touch-action: none` up to a scroll container), a finger that
-moves becomes a pan and its lift arrives as `pointercancel`, as on a device.
+pointermoves. Coordinates are rounded to whole pixels.
 
-Related: [[setpointercapture-throws-for-inactive-pointer-id]].
+Related: [[puppeteer-touch-move-resolves-before-the-page-handles-it]], [[setpointercapture-throws-for-inactive-pointer-id]].
