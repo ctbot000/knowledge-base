@@ -2,6 +2,7 @@
 title: A test harness that steps only the simulation is a different system from the one the frame loop runs
 tags: [testing, game-loop, graphics, automation]
 added: 2026-09-11
+updated: 2026-10-07
 ---
 
 ## Fact
@@ -34,4 +35,10 @@ sampling, overlay sync, visibility toggles driven per frame.
 - The giveaway is a value that converges in the running app and stalls under the
   harness. Compare it after `n` harness steps against `n` real frames before
   blaming the value's own code.
+- Driving the whole frame N times still does not move anything interpolated on
+  the wall clock, such as remote entities drawn `now - delay` between network
+  snapshots: the clock barely advances inside one synchronous batch. Moved by
+  the test, such an entity stays drawn where it was, and a tap aimed at its
+  drawn position misses. Wait in real time until the drawn position matches the
+  authoritative one before reading the screen.
 - The timestamp half of this is [[driven-game-loop-needs-accumulator-reset]].
