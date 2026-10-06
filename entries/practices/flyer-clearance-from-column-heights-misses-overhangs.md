@@ -2,6 +2,7 @@
 title: A flyer kept above the column heights it samples still flies into overhangs and the corners it never sampled
 tags: [game-design, simulation, voxel, collision]
 added: 2026-10-03
+updated: 2026-10-06
 ---
 
 ## Fact
@@ -19,6 +20,10 @@ the step sampled, so the agent still ends up inside blocks:
 - The column it is landing in is exempt from the margin, so it gets entered
   from the side, under the very crown it means to land on.
 
+The same hole opens on the ground: a keep-out rule (water, a safe zone, a
+shelter) checked at one point ahead lets a body moving on a diagonal through a
+corner cell that the point skips over.
+
 ## Why it matters
 
 Each failure lasts a few frames, around one step in two thousand, so spot
@@ -34,6 +39,9 @@ glitch rather than a movement rule.
 - Check ground paths too: every point of a hop or walk must be under open sky,
   not just its end, or the agent ends up under an overhang it cannot take off
   from.
+- For a keep-out region, test the four corners of the body's footprint at the
+  point ahead, not its middle: the footprint touches a corner cell before the
+  middle can reach it.
 - Measure it over long seeded runs on several worlds, counting steps whose body
   cell is solid, and drive the count to zero.
 
