@@ -2,6 +2,7 @@
 title: When every simulated skill level scores the same, the fault is the bot's perception
 tags: [game-design, simulation, testing, balance]
 added: 2026-09-11
+updated: 2026-10-08
 ---
 
 ## Fact
@@ -36,6 +37,9 @@ as a noisy one, nothing about the noise is reaching the outcome.
   should approach the fair-play ceiling. If it does not, fix the controller.
 - Make the agent's perception include what currently overlaps it, not only what
   lies ahead, and forbid state changes while that set is non-empty.
+- Rule out a hard ceiling first: if every profile has already bought every
+  upgrade when it fails, the game itself is unwinnable there, see
+  [[geometric-threat-against-capped-defence-is-a-wall]].
 - Log what killed each run, not just when. Deaths clustering on one obstacle
   type, or on one internal state such as "mid-transition", names the blind spot
   directly.
