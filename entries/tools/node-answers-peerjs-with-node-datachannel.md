@@ -1,7 +1,8 @@
 ---
-title: A Node process can answer PeerJS browser peers with node-datachannel and the PeerServer protocol written by hand
+title: A Node process can answer and dial PeerJS browser peers with node-datachannel and the PeerServer protocol written by hand
 tags: [peerjs, webrtc, node, signaling]
 added: 2026-10-03
+updated: 2026-10-09
 sources:
   - https://github.com/peers/peerjs/blob/master/lib/negotiator.ts
   - https://github.com/peers/peerjs-server/blob/master/src/enums.ts
@@ -39,5 +40,12 @@ or HTTPS certificate, reusing the app's signaling and TURN servers.
     { candidate, sdpMid: mid, sdpMLineIndex: 0 }, type: "data", connectionId }`
 - Feed incoming `CANDIDATE` payloads to `addRemoteCandidate(c.candidate,
   c.sdpMid)`. The browser opened the channel; it arrives in `onDataChannel`.
+- To dial a browser instead, register under any random id, then
+  `createDataChannel(connectionId)` (making the channel starts the offer) and
+  send `onLocalDescription` as `OFFER`, `payload: { sdp: { type, sdp }, type:
+  "data", connectionId, label: connectionId, serialization: "raw", reliable:
+  true }`. The browser's `peer.on('connection')` fires as for any PeerJS
+  caller; its `ANSWER` goes to `setRemoteDescription(sdp.sdp, "answer")`, and
+  `EXPIRE` means nobody holds that id.
 - With `serialization: "raw"` the channel carries the page's strings as they
   are; chunk long ones yourself, as in the browser.
