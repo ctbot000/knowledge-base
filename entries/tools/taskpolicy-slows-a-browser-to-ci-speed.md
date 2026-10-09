@@ -28,6 +28,12 @@ reproduction a fix is a guess, checked by pushing it.
 
 - Prefix the suite's own command, with whatever makes it render in software as
   CI does: `CI=1 taskpolicy -c background npm test`.
+- The clamp can also wedge a run outright rather than slow it: with the
+  browser on a real GPU (metal) and the desktop's own browser busy with it, a
+  whole suite under `taskpolicy -c background` sat at 0% CPU for many minutes
+  with every Chrome process idle — background QoS never got GPU work
+  scheduled. When the run must use the real GPU, or the machine is busy, leave
+  the default QoS and accept the faster, less CI-like timing.
 - Loop the flaky test under it and count failures before and after a fix.
 - Instrument the page in those runs (gaps between animation frames, what each
   press hit, the app's own state) instead of reasoning from the CI log.
