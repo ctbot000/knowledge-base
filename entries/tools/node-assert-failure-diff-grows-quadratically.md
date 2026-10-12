@@ -4,16 +4,20 @@ tags: [node, testing, assert, memory]
 added: 2026-10-12
 sources:
   - https://nodejs.org/api/assert.html
+  - https://github.com/nodejs/node/issues/61346
+  - https://github.com/nodejs/node/pull/61347
 ---
 
 ## Fact
 
 When `assert.strictEqual` (`equal` from `node:assert/strict`) or
-`deepStrictEqual` fails on two objects, Node builds a diff of both values
-before throwing, and its memory grows roughly with the square of what the
-objects hold. On Node 26, two objects of eight `Float32Array`s each took 0.3 GB
+`deepStrictEqual` fails on two objects, Node diffs the full `util.inspect` text
+of both (every array element on its own line) with a Myers diff that keeps a
+copy of its whole work array per step of edit distance, so memory grows with
+lines × differences: roughly the square of what the objects hold. On Node 26, two objects of eight `Float32Array`s each took 0.3 GB
 at 1,000 elements per array, 4.3 GB at 4,000 and 66 GB at 16,000, for a message
-of under a megabyte. `--max-old-space-size` does not cap it.
+of under a megabyte. `--max-old-space-size` does not cap it. Known upstream
+(nodejs/node#61346); a fix that truncates and chunks the diff is proposed.
 
 ## Why it matters
 
