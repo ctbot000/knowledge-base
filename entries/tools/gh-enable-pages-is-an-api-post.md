@@ -2,7 +2,7 @@
 title: Enabling GitHub Pages from the CLI is an API POST, and its success does not mean the site is live
 tags: [github, github-pages, cli]
 added: 2026-08-29
-updated: 2026-09-18
+updated: 2026-10-18
 sources:
   - https://docs.github.com/en/rest/pages/pages#create-a-github-pages-site
   - https://cli.github.com/manual/gh_api
@@ -25,6 +25,12 @@ on the builder. A branch-built site moves to `building` and then to `built`. A
 workflow-built one never reports a status at all: `.status` stays `null` for the
 life of the site and `pages/builds/latest` answers 404, because both describe
 the legacy builder only.
+
+The POST needs **admin** on the repository. A collaborator with only write
+access gets `404 Not Found`, not `403`, so the failure reads as a wrong owner or
+repo name rather than a missing permission. Check
+`gh repo view OWNER/REPO --json viewerCanAdminister` before concluding the path
+is wrong; without admin, the owner has to enable Pages.
 
 ## Why it matters
 
