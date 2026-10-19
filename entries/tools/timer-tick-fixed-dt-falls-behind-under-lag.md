@@ -2,6 +2,7 @@
 title: A timer that steps a fixed dt per tick falls behind a wall-clock simulation when the event loop lags
 tags: [simulation, game-loop, testing, node]
 added: 2026-10-09
+updated: 2026-10-19
 ---
 
 ## Fact
@@ -24,6 +25,11 @@ mode), so the failure looks like logic, not timing.
 
 - Step every loop that shares a world by elapsed time, capped
   (`dt = min(0.25, (now - last) / 1000)`), and let the physics substep it.
+- The cap falls behind the same way once frames come further apart than it: a
+  render loop capped at 0.1 s a frame, drawing one frame a second on a loaded
+  test machine, runs at a tenth of speed while the server's clock-driven timers
+  (healing, repeat hits) keep firing. A test that needs one such event should
+  cause it once by hand and hold the timers, not race them.
 - Reproduce load flakes by lagging the event loop on purpose instead of hogging
   CPUs (which starves the whole run): in the test, add
   `setInterval(() => { const e = Date.now() + 60; while (Date.now() < e); }, 80)`.
