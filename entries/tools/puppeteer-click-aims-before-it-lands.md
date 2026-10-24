@@ -2,6 +2,7 @@
 title: Puppeteer aims a click where an element is when it looks, so one still animating in gets missed
 tags: [testing, automation, puppeteer, css]
 added: 2026-10-02
+updated: 2026-10-25
 sources:
   - https://github.com/puppeteer/puppeteer/blob/main/packages/puppeteer-core/src/api/ElementHandle.ts
   - https://drafts.csswg.org/web-animations-1/#dom-animatable-getanimations
@@ -38,5 +39,11 @@ animation shows the same first-keyframe box in consecutive frames.
   Pending and running animations are listed; a finished one with no fill is not.
 - Bring the page to the front first. A hidden page has no frames, so its
   animations never finish; see [[puppeteer-click-hangs-in-background-tab]].
+- Finished animations do not make the box stable. Content arriving
+  asynchronously (a fetch, a socket reply) that grows a vertically centred
+  dialog moves everything above it up by half the growth. Waiting for the data
+  first fixes the test, but users tap into the same jump: anchor such a dialog
+  at the top (`align-self: start`) so it grows downward. To reproduce, hold the
+  reply back, read the target's box, release it, and click the old point.
 - Suspect this when a click-driven step times out only on CI and the page shows
   that a different choice was made: another option picked, another switch flipped.
