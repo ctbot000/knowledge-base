@@ -1,7 +1,8 @@
 ---
-title: A Pages deploy rejected for an in-progress deployment cannot be fixed by re-running it; request a new build
+title: Never re-run a Pages deploy rejected for an in-progress deployment; the stuck re-run blocks every later deploy
 tags: [github-pages, github-actions, ci]
 added: 2026-11-01
+updated: 2026-11-01
 ---
 
 ## Fact
@@ -13,16 +14,19 @@ no jobs, and it never starts. A new build from the Pages API runs normally.
 
 ## Why it matters
 
-The site stays on the older commit while every check looks fine, and the
-re-run sits in the queue forever. Builds API status stays `building`.
+The stuck re-run keeps holding the Pages deploy lock. Every later deploy
+fails with the same "in progress deployment" error naming that commit, even
+though the Pages API reports its deployment as succeeded. The re-run cannot
+be cancelled, force-cancelled (409, "has not yet queued"), deleted (403) or
+re-run again ("already running"), so the site stays frozen.
 
 ## How to apply
 
-Skip the re-run. Request a fresh build of the branch head:
+Do not press re-run on that failure. Wait for the earlier deploy to finish,
+then request a fresh build of the branch head:
 
 ```bash
 gh api -X POST repos/OWNER/REPO/pages/builds
 ```
 
-Then watch the new run (`gh run list`) and check the live page. A leftover
-queued re-run with no jobs cannot be cancelled and does no harm.
+Space out pushes to a Pages branch by a minute or two to avoid the clash.
