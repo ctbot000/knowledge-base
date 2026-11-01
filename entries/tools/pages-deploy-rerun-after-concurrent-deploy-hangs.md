@@ -18,7 +18,8 @@ The stuck re-run keeps holding the Pages deploy lock. Every later deploy
 fails with the same "in progress deployment" error naming that commit, even
 though the Pages API reports its deployment as succeeded. The re-run cannot
 be cancelled, force-cancelled (409, "has not yet queued"), deleted (403) or
-re-run again ("already running"), so the site stays frozen.
+re-run again ("already running"). Turning Pages off and on does not clear it
+either, and leaves the site at 404 until a deploy gets through.
 
 ## How to apply
 
@@ -30,3 +31,17 @@ gh api -X POST repos/OWNER/REPO/pages/builds
 ```
 
 Space out pushes to a Pages branch by a minute or two to avoid the clash.
+
+If a re-run is already stuck, delete the `github-pages` environment; the
+next build recreates it and deploys. Note its branch policy first and put it
+back afterwards, because the recreated environment has none:
+
+```bash
+gh api -X DELETE repos/OWNER/REPO/environments/github-pages
+gh api -X POST repos/OWNER/REPO/pages/builds
+gh api -X PUT repos/OWNER/REPO/environments/github-pages \
+  -F 'deployment_branch_policy[protected_branches]=false' \
+  -F 'deployment_branch_policy[custom_branch_policies]=true'
+gh api -X POST repos/OWNER/REPO/environments/github-pages/deployment-branch-policies \
+  -f name=main -f type=branch
+```
