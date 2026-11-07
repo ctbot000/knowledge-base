@@ -2,6 +2,7 @@
 title: Math.max cannot floor a NaN, so a clamped loop bound can still run zero times
 tags: [javascript, numerics, simulation]
 added: 2026-09-08
+updated: 2026-11-07
 ---
 
 ## Fact
@@ -42,5 +43,8 @@ layers below the arithmetic that actually produced the `NaN`.
   place that sees every entity — and park anything non-finite at rest.
 - Treat `x !== 0` as "live or broken", not "live". A liveness or dirty check
   written that way silently classifies `NaN` as active.
-- The same holds for `Math.min` as an upper clamp, and for `Math.max(0, x)` used
-  to keep a value non-negative.
+- The same holds for `Math.min` as an upper clamp, for `Math.max(0, x)` used
+  to keep a value non-negative, and for a clamp written with comparisons:
+  `t <= 0 ? 0 : t >= 1 ? 1 : f(t)` passes `NaN` straight through, as both tests
+  are false. A blend width of zero makes one: `smoothstep(d / width)` at `d = 0`
+  is `0 / 0`, and a heightmap built from it gets holes, not a hard edge.
