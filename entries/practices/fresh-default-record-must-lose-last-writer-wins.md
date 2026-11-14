@@ -2,6 +2,7 @@
 title: A record a new device creates by default must carry the oldest timestamp, or last-writer-wins sync spreads it over the real one
 tags: [sync, data-loss, distributed-systems]
 added: 2026-10-03
+updated: 2026-11-14
 sources:
   - https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#LWW-Element-Set_(Last-Write-Wins-Element-Set)
 ---
@@ -30,6 +31,8 @@ looks like the latest edit.
 - Merge accumulating fields monotonically instead of by LWW (a union of
   earned items keeping the earliest date, the maximum of each counter), so
   no device loses progress whichever side wins.
+- In such a union, store "not earned" as a missing key, never as 0: with 0,
+  `min(date, 0)` is 0, so a device that never earned an item wipes it.
 - When a device signs in to an existing account, seed its local record from
   the server's copy before the first sync, not from local defaults.
 - Test that merging a fresh default with an older real record yields the
