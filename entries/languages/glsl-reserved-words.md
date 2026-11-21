@@ -2,7 +2,9 @@
 title: GLSL rejects a long list of words it does not implement, and `half` is one of them
 tags: [glsl, webgl, shaders]
 added: 2026-09-11
+updated: 2026-11-21
 sources:
+  - https://registry.khronos.org/OpenGL/specs/es/3.0/GLSL_ES_Specification_3.00.pdf
   - https://registry.khronos.org/OpenGL/specs/es/2.0/GLSL_ES_Specification_1.00.pdf
 ---
 
@@ -18,7 +20,10 @@ ERROR: 0:20: 'half' : Illegal use of reserved word
 The list is long and contains ordinary nouns — in GLSL ES 1.00 it includes
 `half`, `double`, `long`, `short`, `input`, `output`, `interface`, `union`,
 `this`, `namespace`, `switch`, `default`, `goto`, and the `hvec`/`fvec`/`dvec`
-vector families. Several are the obvious name for the thing being computed.
+vector families. GLSL ES 3.00 (what WebGL 2 and three.js compile to) adds more,
+`patch` and `sample` among them: a `float patch = …` for a patch of colour on
+terrain fails the same way. Several are the obvious name for the thing being
+computed.
 `half` is the one that bites hardest, because the Blinn-Phong halfway vector is
 called the half vector in every text that describes it:
 
