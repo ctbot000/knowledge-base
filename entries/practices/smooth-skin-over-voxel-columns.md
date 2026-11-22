@@ -2,6 +2,7 @@
 title: A voxel world can be drawn as smooth land by joining columns one step apart and splitting the rest, with what stands on it lifted onto the skin as it is drawn
 tags: [terrain, voxel, graphics, procedural-generation]
 added: 2026-11-18
+updated: 2026-11-22
 ---
 
 ## Fact
@@ -28,8 +29,11 @@ about half a cell of what is walked on.
 
 ## How to apply
 
-- A step up needs no smoothing of its own: when the feet jump up a cell,
-  `support` jumps with them, so the drawn height stays continuous.
+- A step up needs no smoothing of its own if the feet go up the cell at
+  once: `support` jumps with them, so the drawn height stays continuous. A
+  jump arc or a fall off a step shows through, so movement has to walk the
+  steps as slopes (see
+  [voxel-steps-under-a-smooth-skin-are-walked-as-slopes](voxel-steps-under-a-smooth-skin-are-walked-as-slopes.md)).
 - Bake ambient occlusion from the column heights, and lamp light from the
   game's own light grid, into vertex attributes.
 - Keep the lift out of picking and physics; it is a drawing offset only.
